@@ -581,12 +581,12 @@ let sim_emt = function(p) {
                 const B = s.cells[i].time_B;
                 const S = s.cells[i].time_S;
                 const P = s.cells[i].time_P;
-                const row_s = '<td class="px-6 py-2">' + String(j+1) + '</td>' +
-                            '<td class="px-6 py-2">' + (A < Infinity ? A.toFixed(1)+"h" : "") + '</td>' +
-                            '<td class="px-6 py-2">' + (B < Infinity ? B.toFixed(1)+"h" : "") + '</td>' +
-                            '<td class="px-6 py-2">' + (S < Infinity ? S.toFixed(1)+"h" : "") + '</td>' +
-                            '<td class="px-6 py-2">' + (s.cells[i].has_inm ? "Yes" : "") + '</td>' +
-                            '<td class="px-6 py-2">' + (P*B < Infinity ? "Yes" : "") + '</td>';
+                const row_s = '<td class="px-6 py-2 font-medium">' + String(j+1) + '</td>' +
+                            '<td class="px-6 py-2 font-medium">' + (A < Infinity ? A.toFixed(1)+"h" : "") + '</td>' +
+                            '<td class="px-6 py-2 font-medium">' + (B < Infinity ? B.toFixed(1)+"h" : "") + '</td>' +
+                            '<td class="px-6 py-2 font-medium">' + (S < Infinity ? S.toFixed(1)+"h" : "") + '</td>' +
+                            '<td class="px-6 py-2 font-medium">' + (s.cells[i].has_inm ? "Yes" : "") + '</td>' +
+                            '<td class="px-6 py-2 font-medium">' + (P*B < Infinity ? "Yes" : "") + '</td>';
 
                 if( j < p_info.rows.length ) {
                     const row = p_info.rows[j];
@@ -600,7 +600,7 @@ let sim_emt = function(p) {
             }
         }
 
-        for(let i = j; i < 10; ++i) {
+        for(let i = j; i < 11; ++i) {
             if( i < p_info.rows.length ) {
                 const row = p_info.rows[i];
                 row.innerHTML =  '<td class="px-6 py-2 font-medium">' + String(i+1) + '</td>';

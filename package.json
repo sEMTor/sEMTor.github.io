@@ -1,0 +1,30 @@
+{
+  "name": "semtor.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postcss:watch": "postcss page/style.css -o page/css/main.css --watch",
+    "postcss:build": "postcss page/style.css -o page/css/main.css",
+    "copyjs": "copyfiles -u 4 node_modules/tw-elements/dist/js/tw-elements.umd.min.js page/js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sEMTor/sEMTor.github.io.git"
+  },
+  "author": "SteffenPL",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sEMTor/sEMTor.github.io/issues"
+  },
+  "homepage": "sEMTor.github.io",
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "copyfiles": "^2.4.1",
+    "postcss": "^8.4.31",
+    "postcss-cli": "^10.1.0",
+    "tailwindcss": "^3.3.5",
+    "tw-elements": "^1.0.0"
+  }
+}

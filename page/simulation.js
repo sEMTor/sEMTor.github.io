@@ -267,48 +267,8 @@ let sim_emt = function(p, poutside) {
         s.ap_links.length = 0;
         s.ba_links.length = 0;
 
-        if(pcontrol.hetero) {
-             // copy values from pcontrol into the emt cell type
-             params.general.N_emt = 10;
-             params.general.N_init = params.general.N_emt + 35;
-             const emt = params.cell_types.emt;
-             emt.events.time_A.min = 6.0;
-             emt.events.time_B.min = 6.0;
-             emt.events.time_S.min = 6.0;
-     
-             emt.events.time_P.min = pcontrol.B;
-             emt.events.time_P.max = pcontrol.B;
-     
-             emt.run = pcontrol.run;
-             emt.INM = pcontrol.INM;
-     
-             // set max values for emt events time_A, time_B, time_S to the min values
-             emt.events.time_A.max = emt.events.time_A.min + 18;
-             emt.events.time_B.max = emt.events.time_B.min + 18;
-             emt.events.time_S.max = emt.events.time_S.min + 18;
-        }
-        else 
-        {    
-            // copy values from pcontrol into the emt cell type
-            params.general.N_emt = pcontrol.N;
-            params.general.N_init = params.general.N_emt + 35;
-            const emt = params.cell_types.emt;
-            emt.events.time_A.min = pcontrol.A;
-            emt.events.time_B.min = pcontrol.B;
-            emt.events.time_S.min = pcontrol.S;
-    
-            emt.events.time_P.min = pcontrol.B;
-            emt.events.time_P.max = pcontrol.B;
-    
-            emt.run = pcontrol.run;
-    
-            emt.INM = pcontrol.INM;
-    
-            // set max values for emt events time_A, time_B, time_S to the min values
-            emt.events.time_A.max = emt.events.time_A.min + 6;
-            emt.events.time_B.max = emt.events.time_B.min + 6;
-            emt.events.time_S.max = emt.events.time_S.min + 6;
-        }
+        pcontrol.init(pcontrol, params)
+
     
 
         // get the state of INM from the INM input and store into params.emt 
@@ -378,28 +338,29 @@ let sim_emt = function(p, poutside) {
             }
         }
 
+        pcontrol.init_display(pcontrol, params, s);
+
+        // if( pcontrol.A < sim_end && !pcontrol.hetero )
+        //     p_A.style = "left: " + String(pcontrol.A / sim_end * 100) + "%";
+        // else
+        //     p_A.style = "display: none;"
         
-        if( pcontrol.A < sim_end && !pcontrol.hetero )
-            p_A.style = "left: " + String(pcontrol.A / sim_end * 100) + "%";
-        else
-            p_A.style = "display: none;"
-        
-        if( pcontrol.B < sim_end && !pcontrol.hetero )
-            p_B.style = "left: " + String(pcontrol.B / sim_end * 100) + "%";
-        else
-            p_B.style = "display: none;"
+        // if( pcontrol.B < sim_end && !pcontrol.hetero )
+        //     p_B.style = "left: " + String(pcontrol.B / sim_end * 100) + "%";
+        // else
+        //     p_B.style = "display: none;"
 
-        if( pcontrol.S < sim_end && !pcontrol.hetero )
-            p_S.style = "left: " + String(pcontrol.S / sim_end * 100) + "%";
-        else
-            p_S.style = "display: none;"
+        // if( pcontrol.S < sim_end && !pcontrol.hetero )
+        //     p_S.style = "left: " + String(pcontrol.S / sim_end * 100) + "%";
+        // else
+        //     p_S.style = "display: none;"
 
-        if( pcontrol.run > 0 )
-            p_B.innerHTML  = "B(p)"
-        else
-            p_B.innerHTML  = "B"
+        // if( pcontrol.run > 0 )
+        //     p_B.innerHTML  = "B(p)"
+        // else
+        //     p_B.innerHTML  = "B"
 
-        p_sim_end.style = "display:none;"
+        // p_sim_end.style = "display:none;"
 
         // update timing table: 
 
@@ -453,7 +414,7 @@ let sim_emt = function(p, poutside) {
         const cp = params.cell_prop;
 
 
-        let dt = pg.dt * pcontrol.speed;
+        let dt = pg.dt;
 
         // update time dynamics 
         for (let i = 0; i < s.cells.length; ++i) {
@@ -654,7 +615,7 @@ let sim_emt = function(p, poutside) {
             s.ap_links[e].rl *= p.exp(-dt * 1 );
         }
 
-        dt = pg.dt / pg.n_substeps * pcontrol.speed;
+        dt = pg.dt / pg.n_substeps;
 
         for (let step = 0; step < pg.n_substeps; ++step) {
 
@@ -867,7 +828,7 @@ let sim_emt = function(p, poutside) {
             reset_time = 0.0;
         }
         else {
-            reset_time += pg.dt * pcontrol.speed;
+            reset_time += pg.dt;
             p_sim_end.style = ""
             // write simulation end in the center of the canvas
         }

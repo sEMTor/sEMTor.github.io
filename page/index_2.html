@@ -423,9 +423,7 @@
 
     var $ = function (id) { return document.getElementById(id); };
 
-
-
-    const params_def = {
+    const params = {
         general: {
             t_end: 96,
             dt: 0.1, 
@@ -512,15 +510,54 @@
     };
 
 
+    function init_params(pcontrol, params) {
+      if(pcontrol.hetero) {
+              // copy values from pcontrol into the emt cell type
+              params.general.N_emt = 10;
+              params.general.N_init = params.general.N_emt + 35;
+              const emt = params.cell_types.emt;
+              emt.events.time_A.min = 6.0;
+              emt.events.time_B.min = 6.0;
+              emt.events.time_S.min = 6.0;
+      
+              emt.events.time_P.min = pcontrol.B;
+              emt.events.time_P.max = pcontrol.B;
+      
+              emt.run = pcontrol.run;
+              emt.INM = pcontrol.INM;
+      
+              // set max values for emt events time_A, time_B, time_S to the min values
+              emt.events.time_A.max = emt.events.time_A.min + 18;
+              emt.events.time_B.max = emt.events.time_B.min + 18;
+              emt.events.time_S.max = emt.events.time_S.min + 18;
+          }
+          else 
+          {    
+              // copy values from pcontrol into the emt cell type
+              params.general.N_emt = pcontrol.N;
+              params.general.N_init = params.general.N_emt + 35;
+              const emt = params.cell_types.emt;
+              emt.events.time_A.min = pcontrol.A;
+              emt.events.time_B.min = pcontrol.B;
+              emt.events.time_S.min = pcontrol.S;
+      
+              emt.events.time_P.min = pcontrol.B;
+              emt.events.time_P.max = pcontrol.B;
+      
+              emt.run = pcontrol.run;
+      
+              emt.INM = pcontrol.INM;
+      
+              // set max values for emt events time_A, time_B, time_S to the min values
+              emt.events.time_A.max = emt.events.time_A.min + 6;
+              emt.events.time_B.max = emt.events.time_B.min + 6;
+              emt.events.time_S.max = emt.events.time_S.min + 6;
+          }
+        }
 
 
 
-
-
-
-
-
-
+    pcontrol.init = init_params;
 
 
 

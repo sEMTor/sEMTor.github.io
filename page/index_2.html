@@ -3,13 +3,8 @@
 
 <head>
   <meta charset="utf-8">
-  <title>sEMTor – The EMT simulator</title>
-  <meta name="description" content="Interactive EMT simulator 
-  acompaning the article: 
-  Modelling variability and heterogeneity of EMT scenarios highlights nuclear positioning 
-  and protrusions as main drivers of extrusion by 
-  Steffen Plunder, Cathy Danesin, Bruno Glise, Marina A Ferreira, Sara Merino Aceituno and Eric Theveneau.
-  ">
+  <title>EMT simulation</title>
+  <meta name="description" content="EMT simulation">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/main.css">
 </head>
@@ -26,18 +21,9 @@
         </span>
       </p>
 
-      <p class="dark:text-slate-400" text>      
-        <span class="italic text-sm"> 
-          Developed by Steffen Plunder, see the companion article:
-        </span>
-        <br><br>
-        <span class="dark:text-slate-200 font-semibold">
-          Modelling variability and heterogeneity of EMT scenarios highlights nuclear positioning and protrusions as main drivers of extrusion 
-        </span>
-        <br>
-        <span class="italic">
-        Steffen Plunder, Cathy Danesin, Bruno Glise, Marina A Ferreira, Sara Merino Aceituno and Eric Theveneau, 2023,
-        </span> <a href="https://www.biorxiv.org/content/10.1101/2023.11.17.567510v1" class="underline">bioRxiv</a>.
+      <p class="italic dark:text-slate-500 text-sm" text>      
+        Developed by Steffen Plunder, see the companion article 
+        [Title], [list of authors], [link].
       </p>
       <br>
 
@@ -88,7 +74,7 @@
                   id="sim_end" style="display: none;">Simulation
                   end: Click to restart simulation.</span>
               </p>
-              <div id="sim_div" class="bg-slate-50 aspect-w-16 aspect-h-9"></div>
+              <div id="sim_div" class="bg-slate-50"></div>
               <div>
                 <p class="text-slate-800 float-right text-xs font-thin">Basal side (black)</p>
                 <p id="time" class="text-xs font-bold mx-4 font-mono"> Time = 10</p>
@@ -437,17 +423,153 @@
 
     var $ = function (id) { return document.getElementById(id); };
 
-    const poutside = {screen_size: {w: 1280.0, h: 720}};
 
-    let sim_emt_p5 = new p5(p => sim_emt(p, poutside), 'sim_div');
+
+    const params_def = {
+        general: {
+            t_end: 96,
+            dt: 0.1, 
+            random_seed: 0,
+            init_basal_junction_dist: 0.3,
+            N_init: 30,
+            N_max: 70,
+            N_emt: 2,
+            w_init: 8,
+            h_init: 10,
+            mu: 0.2,
+            n_substeps: 30,
+            alg_dt: 0.01,
+            w_screen: 25,
+            h_screen: 20,
+            p_div_out: 0.8,
+        },
+        cell_prop: {
+            apical_junction_init: 0.3,
+            max_basal_junction_dist: 0.6,
+            basal_daming_ratio: 1.0,
+            cytos_init: 1.5,
+            diffusion: 0.1,
+
+        },
+        cell_types: {
+            control: {
+                name: 'control',
+                R_hard: 0.3, 
+                R_hard_div: 0.7, 
+                R_soft: 1.0,
+                color: p.color(30, 100, 20),
+                dur_G2: 0.5,
+                dur_mitosis: 0.5,
+                k_apical_junction: 1.0,
+                k_cytos: 5.0,
+                run: 0.0,
+                running_speed: 1.0,
+                running_mode: 0,
+                stiffness_apical_apical: 5.0,
+                stiffness_apical_apical_div: 10.0,
+                stiffness_nuclei_apical: 2.0,
+                stiffness_nuclei_basal: 2.0,
+                stiffness_repulsion: 1.0,
+                stiffness_straightness: 15.0,
+                lifespan: {min: 10, max: 21},
+                INM: 1.0,
+                events: {
+                    time_A: {min:Infinity, max:Infinity},
+                    time_B: {min:Infinity, max:Infinity},
+                    time_S: {min:Infinity, max:Infinity},
+                    time_P: {min:Infinity, max:Infinity},
+                }
+            },
+            emt: {
+                name: 'emt',
+                R_hard: 0.3, 
+                R_hard_div: 0.7, 
+                R_soft: 1.0,
+                color: p.color(150, 0, 0),
+                dur_G2: 0.5,
+                dur_mitosis: 0.5,
+                k_apical_junction: 1.0,
+                k_cytos: 5.0,
+                run: 0.0,
+                running_speed: 1.0,
+                running_mode: 0,
+                stiffness_apical_apical: 5.0,
+                stiffness_apical_apical_div: 10.0,
+                stiffness_nuclei_apical: 2.0,
+                stiffness_nuclei_basal: 2.0,
+                stiffness_repulsion: 1.0,
+                stiffness_straightness: 15.0,
+                lifespan: {min: 10, max: 21},
+                INM: 0.0,
+                events: {
+                    time_A: {min:6, max:24},
+                    time_B: {min:6, max:24},
+                    time_S: {min:6, max:24},
+                    time_P: {min:6, max:24},
+                }
+            }
+        }
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const poutside = {screen_size: {w: 1280.0, h: 512}};
+
+    let sim_emt_p5 = new p5( p => sim_emt(p, poutside), 'sim_div');
     let pcontrol = sim_emt_p5.getControl();
+
+    var p = sim_emt_p5.getParams();
+    // modify parameters 
+    //p.general.w_screen = 30.0;
+    //p.general.h_screen = 20.0;
+
+    p.general.p_div_out = 0.95;
+    p.general.w_init = 10.0;
+    p.general.h_init = 5.0;
+    p.cell_prop.max_basal_junction_dist = 1.0;
+    p.cell_prop.apical_junction_init = 1.5;
+
+    // Rhard
+    p.cell_types.control.R_hard = 0.4; 
+    p.cell_types.emt.R_hard     = 0.4;
+
+    // Rsoft 
+    p.cell_types.control.R_soft = 1.2; 
+    p.cell_types.emt.R_soft     = 1.2;
+
+    // stiffness_apical_apical 
+    p.cell_types.control.stiffness_apical_apical = 2.0; 
+    p.cell_types.emt.stiffness_apical_apical     = 2.0;
+
+
+    // stiffness_repulsion
+    p.cell_types.control.stiffness_repulsion = 4.0; 
+    p.cell_types.emt.stiffness_repulsion     = 4.0;
+
+    // max cyto length = 3.7
+    // apical healing = 1.0
+
+
 
     pcontrol.run = false;
     pcontrol.INM = true;
     pcontrol.A = 9;
     pcontrol.B = 15;
     pcontrol.S = 21;
-    pcontrol.N = 11;
+    pcontrol.N = 19;
 
     function controlFromHtml() {
       pcontrol.hetero = $("hetero_input").checked;

@@ -1,7 +1,7 @@
 
 
 
-let sim_emt = function(p) {
+let sim_emt = function(p, poutside) {
     const parent = document.getElementById('sim_div');
 
     const p_time = document.getElementById('time');
@@ -14,7 +14,7 @@ let sim_emt = function(p) {
 
     const pv = p5.Vector;
 
-    const aspect = 16/9;
+    const aspect = poutside.screen_size.w / poutside.screen_size.h;
     const bg_col = p.color(30,30,30);
     const sim_end = 24 * 2;
 
@@ -30,6 +30,7 @@ let sim_emt = function(p) {
         run: 1.0,
         hetero: false,
         N: 10,
+        screen_size: poutside.screen_size
     };
 
     let plts = {
@@ -47,7 +48,7 @@ let sim_emt = function(p) {
             N_emt: 2,
             w_init: 8,
             h_init: 10,
-            mu: 0.15,
+            mu: 0.2,
             n_substeps: 30,
             alg_dt: 0.01,
             w_screen: 25,
@@ -77,6 +78,7 @@ let sim_emt = function(p) {
                 running_speed: 1.0,
                 running_mode: 0,
                 stiffness_apical_apical: 5.0,
+                stiffness_apical_apical_div: 10.0,
                 stiffness_nuclei_apical: 2.0,
                 stiffness_nuclei_basal: 2.0,
                 stiffness_repulsion: 1.0,
@@ -104,6 +106,7 @@ let sim_emt = function(p) {
                 running_speed: 1.0,
                 running_mode: 0,
                 stiffness_apical_apical: 5.0,
+                stiffness_apical_apical_div: 10.0,
                 stiffness_nuclei_apical: 2.0,
                 stiffness_nuclei_basal: 2.0,
                 stiffness_repulsion: 1.0,
@@ -125,181 +128,8 @@ let sim_emt = function(p) {
     p.getParams = function() { return params };
     p.getControl = function() { return pcontrol };
     p.getState = function() { return s };
-
-/* 
-    function init_interface() {
-                
-        const pane = new Tweakpane.Pane(
-            {
-                title: "Simulation control",
-                container: document.getElementById('tp_container'),
-            });
-        pane.registerPlugin(TweakpaneEssentialsPlugin);
-
-        
-        const presets = pane.addInput(pcontrol , 'preset', 
-            {
-                label: 'Load setup',
-                options: 
-                [
-                    {text: "Two EMT cells (no INM)", value: 0},
-                    {text: "Two EMT cells (with INM)", value: 1},
-                    {text: "10 EMT cells (no INM)", value: 2},
-                    {text: "10 EMT cells (with INM)", value: 3},
-                    {text: "No EMT cells", value: 4},
-                ]
-            });
-
-        presets.on('change', (ev) => {
-            Object.assign(params, params_def);
-            console.log(ev.value);
-            pcontrol.preset = ev.value;
-            switch(ev.value) { 
-                case 0: 
-                    params.general.N_init = 30;
-                    params.general.N_emt = 2;
-                    params.cell_types.emt.INM = false;
-                    break;
-
-                case 1: 
-                    params.general.N_init = 30;
-                    params.general.N_emt = 2;
-                    params.cell_types.emt.INM = true;
-                    break;
-                    
-                case 2: 
-                    params.general.N_init = 40;
-                    params.general.N_emt = 10;
-                    params.general.w_init = 15;
-                    params.cell_types.emt.INM = false;
-                    break;
-                    
-                case 3: 
-                    params.general.N_init = 40;
-                    params.general.N_emt = 10;
-                    params.general.w_init = 15;
-                    params.cell_types.emt.INM = true;
-                    break;
-
-                case 4:
-                    params.general.N_init = 30;
-                    params.general.N_emt = 0;
-                    break;
-
-                default: break;
-            }
-            init();
-            pane.refresh();
-        });
-
-        let btn = pane.addButton(
-            {
-                title: 'Start simulation',                
-            });
-
-        btn.on('click', () => {
-            init();
-        });
-
-        pane.addInput(pcontrol, 'speed', 
-            {
-                label: 'Play speed [sim h/s]', min: 0.0, max: 2.0,
-            });
-
-        pane.addSeparator();
-
-
-        let tabs = pane.addTab({
-            pages: [
-                {title: 'EMT cells'},
-                {title: 'Control cells'},
-                {title: 'Stats'},
-            ]
-        });
-
-
-        let tabP = tabs .pages[2];
-        let tabA = tabs .pages[1];
-        let tabU = tabs .pages[0];
-
-        tabP.addMonitor(s.cells, 'length', {
-            label: "#cells",
-            view: 'graph',
-            interval: 1000,
-            min: 0,
-            max: params.general.N_max + 1,
-        });
-
-        tabA.addInput(params.cell_types.control, 'lifespan',
-        {
-            label: 'Lifespan [h]', min: 5.0, max: 40, step: 1.0
-        });
-
-
-        tabA.addInput(params.cell_types.control, 'INM',
-        {
-            label: 'Interkinetic nuclear migration'
-        });
-
-        tabA.addInput(params.cell_types.control, 'stiffness_repulsion',
-            {
-                label: 'Stiffness: Cell repulsion', min: 0.0, max: 5, step: 0.1
-            });
-            
-        tabA.addInput(params.cell_types.control, 'stiffness_straightness',
-            {
-                label: 'Stiffness: Straightness factor', min: 0.0, max: 20, step: 0.1
-            });
-
-        tabA.addInput(params.cell_types.control, 'stiffness_nuclei_apical',
-            {
-                label: 'Stiffness: Apical cytoskeleton', min: 1.0, max: 10, step: 0.1
-            });
-
-        tabA.addInput(params.cell_types.control, 'stiffness_nuclei_basal',
-            {
-                label: 'Stiffness: Basal cytoskeleton', min: 1.0, max: 10, step: 0.1
-            });
-
-        tabA.addInput(params.cell_types.control, 'stiffness_apical_apical',
-        {
-            label: 'Stiffness: Apical-apical springs', min: 1.0, max: 10, step: 0.1
-        });
-
-        tabA.addInput(params.cell_types.control, 'k_cytos',
-        {
-            label: 'Speed of rest length adaptation', min: 0.0, max: 20, step: 0.1
-        });
-
-        
-        tabU.addInput(params.cell_types.emt, 'INM',
-        {
-            label: 'Interkinetic nuclear migration'
-        });
-
-
-        const tabUR = tabU.addFolder({
-            title: 'Changes of the time of EMT requires restart of the simulation:',
-            expanded: true,   // optional
-        });
-
-        tabUR.addInput(params.cell_types.emt.events, 'time_A',
-        {
-            label: 'EMT event: Loss apical adhesion [h]', min: 6.0, max: 48, step: 3
-        });
-
-        tabUR.addInput(params.cell_types.emt.events, 'time_B',
-        {
-            label: 'EMT event: Loss basal adhesion [h]', min: 6.0, max: 48, step: 3
-        });
-        
-        /*tabU.addInput(params.cell_types.emt.events, 'time_S',
-        {
-            label: 'EMT event: Loss polarity [h]', min: 6.0, max: 24, step: 3
-        });
-    } */
     
-
+    // state
     let s = {
         cells: [],
         ap_links: [],
@@ -794,6 +624,10 @@ let sim_emt = function(p) {
             }
             
             if( ci.phase == 1 ) {
+                ci.stiffness_apical_apical = ci.type.stiffness_apical_apical_div;
+            };
+
+            if( ci.phase == 2 ) {
                 ci.R_hard = ci.type.R_hard_div;
             };
 
@@ -994,7 +828,7 @@ let sim_emt = function(p) {
     };
 
     p.setup = function() {
-        p.createCanvas(1280,768);
+        p.createCanvas(pcontrol.screen_size.w,pcontrol.screen_size.h);
         p.windowResized();
         p.frameRate(25);
         //init_interface();

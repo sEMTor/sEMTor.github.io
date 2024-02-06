@@ -1,133 +1,13 @@
-
-
-
-let sim_emt = function(p, poutside) {
-    const parent = document.getElementById('sim_div');
-
-    const p_time = document.getElementById('time');
-    const p_prog = document.getElementById('progress_bar');
-    const p_A = document.getElementById('A_time');
-    const p_B = document.getElementById('B_time');
-    const p_S = document.getElementById('S_time');
-    const p_sim_end = document.getElementById('sim_end');	
-    const p_info = document.getElementById('timing_table');	
+let sim_emt = function(p, inputs, sim_div) {
 
     const pv = p5.Vector;
 
-    const aspect = poutside.screen_size.w / poutside.screen_size.h;
-    const bg_col = p.color(30,30,30);
+    const aspect = inputs.screen_size.w / inputs.screen_size.h;
     const sim_end = 24 * 2;
 
     // Units: space: 5e-6m | h
 
-    let pcontrol = {
-        speed: 1.0,
-        preset: 0,
-        A: 6,
-        B: 9,
-        S: 12,
-        INM: 1.0,
-        run: 1.0,
-        hetero: false,
-        N: 10,
-        screen_size: poutside.screen_size
-    };
-
-    let plts = {
-
-    };
-
-    const params_def = {
-        general: {
-            t_end: 96,
-            dt: 0.1, 
-            random_seed: 0,
-            init_basal_junction_dist: 0.3,
-            N_init: 30,
-            N_max: 70,
-            N_emt: 2,
-            w_init: 8,
-            h_init: 10,
-            mu: 0.2,
-            n_substeps: 30,
-            alg_dt: 0.01,
-            w_screen: 25,
-            h_screen: 20,
-            p_div_out: 0.8,
-        },
-        cell_prop: {
-            apical_junction_init: 0.3,
-            max_basal_junction_dist: 0.6,
-            basal_daming_ratio: 1.0,
-            cytos_init: 1.5,
-            diffusion: 0.1,
-
-        },
-        cell_types: {
-            control: {
-                name: 'control',
-                R_hard: 0.3, 
-                R_hard_div: 0.7, 
-                R_soft: 1.0,
-                color: p.color(30, 100, 20),
-                dur_G2: 0.5,
-                dur_mitosis: 0.5,
-                k_apical_junction: 1.0,
-                k_cytos: 5.0,
-                run: 0.0,
-                running_speed: 1.0,
-                running_mode: 0,
-                stiffness_apical_apical: 5.0,
-                stiffness_apical_apical_div: 10.0,
-                stiffness_nuclei_apical: 2.0,
-                stiffness_nuclei_basal: 2.0,
-                stiffness_repulsion: 1.0,
-                stiffness_straightness: 15.0,
-                lifespan: {min: 10, max: 21},
-                INM: 1.0,
-                events: {
-                    time_A: {min:Infinity, max:Infinity},
-                    time_B: {min:Infinity, max:Infinity},
-                    time_S: {min:Infinity, max:Infinity},
-                    time_P: {min:Infinity, max:Infinity},
-                }
-            },
-            emt: {
-                name: 'emt',
-                R_hard: 0.3, 
-                R_hard_div: 0.7, 
-                R_soft: 1.0,
-                color: p.color(150, 0, 0),
-                dur_G2: 0.5,
-                dur_mitosis: 0.5,
-                k_apical_junction: 1.0,
-                k_cytos: 5.0,
-                run: 0.0,
-                running_speed: 1.0,
-                running_mode: 0,
-                stiffness_apical_apical: 5.0,
-                stiffness_apical_apical_div: 10.0,
-                stiffness_nuclei_apical: 2.0,
-                stiffness_nuclei_basal: 2.0,
-                stiffness_repulsion: 1.0,
-                stiffness_straightness: 15.0,
-                lifespan: {min: 10, max: 21},
-                INM: 0.0,
-                events: {
-                    time_A: {min:6, max:24},
-                    time_B: {min:6, max:24},
-                    time_S: {min:6, max:24},
-                    time_P: {min:6, max:24},
-                }
-            }
-        }
-    };
-
-    const params = Object.assign({}, params_def);
-
-    p.getParams = function() { return params };
-    p.getControl = function() { return pcontrol };
-    p.getState = function() { return s };
+    const params_def = inputs.params;
     
     // state
     let s = {
@@ -136,6 +16,10 @@ let sim_emt = function(p, poutside) {
         ba_links: [],
         t: 0.0,
     };
+
+    p.getParams = function() { return params };
+    p.getControl = function() { return pcontrol };
+    p.getState = function() { return s };
 
 
     class Cell {
@@ -177,6 +61,19 @@ let sim_emt = function(p, poutside) {
                 this.time_A = p.random(ct.events.time_A.min, ct.events.time_A.max);
                 this.time_B = p.random(ct.events.time_B.min, ct.events.time_B.max);
                 this.time_S = p.random(ct.events.time_S.min, ct.events.time_S.max);
+
+                if( ct.hetero ) {
+                    if( p.random() > 0.7 ) {
+                        this.time_A = Infinity;
+                    }
+                    if( p.random() > 0.7 ) {
+                        this.time_B = Infinity;
+                    }
+                    if( p.random() > 0.7 ) {
+                        this.time_S = Infinity;
+                    }
+                }
+
                 this.time_P = (p.random() <= ct.run) ? this.time_B : Infinity;
                 this.stiffness_straightness = ct.stiffness_straightness;
             } else {
@@ -216,8 +113,7 @@ let sim_emt = function(p, poutside) {
             this.pos_last.set(this.pos.x, this.pos.y);
 
             p.noStroke();
-            p.fill(p.red(this.col), p.green(this.col), p.blue(this.col), 100);
-            // p.circle(this.pos.x, this.pos.y, 2*this.R_soft);
+            p.fill(this.col.r, this.col.g, this.col.b, 100);
             const angle = this.dir.heading();
             const F = this.dir.mag();
             p.translate(this.pos.x, this.pos.y);
@@ -241,7 +137,7 @@ let sim_emt = function(p, poutside) {
             p.rotate(-angle);
             p.translate(-this.pos.x, -this.pos.y);
 
-            p.fill(p.red(this.col), p.green(this.col), p.blue(this.col));
+            p.fill(this.col.r, this.col.g, this.col.b);
             p.circle(this.pos.x, this.pos.y, 2*this.R_hard);
             
             
@@ -259,7 +155,6 @@ let sim_emt = function(p, poutside) {
 
     };
 
-    
 
     function init() {
         s.cells.length = 0;
@@ -267,24 +162,7 @@ let sim_emt = function(p, poutside) {
         s.ap_links.length = 0;
         s.ba_links.length = 0;
 
-        pcontrol.init(pcontrol, params)
-
-    
-
-        // get the state of INM from the INM input and store into params.emt 
-        // params.cell_types.emt.INM = document.querySelector('input[name="INM"]:checked').value == "1";
-
-        // get the values TA and TB from the TA and TB inputs and store into params.emt
-
-        // params.cell_types.emt.events.time_A.min = parseFloat( document.querySelector('input[name="TA"]:checked').value );
-        // params.cell_types.emt.events.time_B.min = parseFloat( document.querySelector('input[name="TB"]:checked').value );
-        // params.cell_types.emt.events.time_S.min = parseFloat( document.querySelector('input[name="TS"]:checked').value );
-        
-
-        // set max values for emt events time_A, time_B, time_S to the min values 
-        // params.cell_types.emt.events.time_A.max = params.cell_types.emt.events.time_A.min + 0.1;
-        // params.cell_types.emt.events.time_B.max = params.cell_types.emt.events.time_B.min + 0.1;
-        // params.cell_types.emt.events.time_S.max = params.cell_types.emt.events.time_S.min + 0.1;
+        inputs.init_params(params);
 
         const N =  params.general.N_init;
         const i_emt = p.round( (N - params.general.N_emt) / 2 );
@@ -320,87 +198,7 @@ let sim_emt = function(p, poutside) {
 
         s.t = 0.0;
 
-        // add 30% chance of not doing certain EMT events
-        if( pcontrol.hetero) {
-            for( let i = 0; i < s.cells.length; ++i ) {
-                const ci = s.cells[i];
-                if( ci.type.name == 'emt' ) {
-                    if( p.random() > 0.7 ) {
-                        ci.time_A = Infinity;
-                    }
-                    if( p.random() > 0.7 ) {
-                        ci.time_B = Infinity;
-                    }
-                    if( p.random() > 0.7 ) {
-                        ci.time_S = Infinity;
-                    }
-                }
-            }
-        }
-
-        pcontrol.init_display(pcontrol, params, s);
-
-        // if( pcontrol.A < sim_end && !pcontrol.hetero )
-        //     p_A.style = "left: " + String(pcontrol.A / sim_end * 100) + "%";
-        // else
-        //     p_A.style = "display: none;"
-        
-        // if( pcontrol.B < sim_end && !pcontrol.hetero )
-        //     p_B.style = "left: " + String(pcontrol.B / sim_end * 100) + "%";
-        // else
-        //     p_B.style = "display: none;"
-
-        // if( pcontrol.S < sim_end && !pcontrol.hetero )
-        //     p_S.style = "left: " + String(pcontrol.S / sim_end * 100) + "%";
-        // else
-        //     p_S.style = "display: none;"
-
-        // if( pcontrol.run > 0 )
-        //     p_B.innerHTML  = "B(p)"
-        // else
-        //     p_B.innerHTML  = "B"
-
-        // p_sim_end.style = "display:none;"
-
-        // update timing table: 
-
-        let j = 0; 
-        p_info.innerHTML = '';
-        for(let i = 0; i < s.cells.length; ++i) {
-            if( s.cells[i].type.name == 'emt' ) {
-                const A = s.cells[i].time_A;
-                const B = s.cells[i].time_B;
-                const S = s.cells[i].time_S;
-                const P = s.cells[i].time_P;
-                const row_s = '<td class="px-6 py-2 font-medium">' + String(j+1) + '</td>' +
-                            '<td class="px-6 py-2 font-medium">' + (A < Infinity ? A.toFixed(1)+"h" : "") + '</td>' +
-                            '<td class="px-6 py-2 font-medium">' + (B < Infinity ? B.toFixed(1)+"h" : "") + '</td>' +
-                            '<td class="px-6 py-2 font-medium">' + (S < Infinity ? S.toFixed(1)+"h" : "") + '</td>' +
-                            '<td class="px-6 py-2 font-medium">' + (s.cells[i].has_inm ? "Yes" : "") + '</td>' +
-                            '<td class="px-6 py-2 font-medium">' + (P*B < Infinity ? "Yes" : "") + '</td>';
-
-                if( j < p_info.rows.length ) {
-                    const row = p_info.rows[j];
-                    row.innerHTML = row_s;
-                }
-                else {
-                    const row = p_info.insertRow(-1);
-                    row.innerHTML = row_s;
-                }
-                j += 1;
-            }
-        }
-
-        for(let i = j; i < 11; ++i) {
-            if( i < p_info.rows.length ) {
-                const row = p_info.rows[i];
-                row.innerHTML =  '<td class="px-6 py-2 font-medium">' + String(i+1) + '</td>';
-            }
-            else {
-                const row = p_info.insertRow(-1);
-                row.innerHTML =  '<td class="px-6 py-2 font-medium">' + String(i+1) + '</td>';
-            }
-        }
+        inputs.init_display(s);
 
     }
 
@@ -789,7 +587,7 @@ let sim_emt = function(p, poutside) {
     };
 
     p.setup = function() {
-        p.createCanvas(pcontrol.screen_size.w,pcontrol.screen_size.h);
+        p.createCanvas(inputs.screen_size.w,inputs.screen_size.h);
         p.windowResized();
         p.frameRate(25);
         //init_interface();
@@ -821,7 +619,7 @@ let sim_emt = function(p, poutside) {
 
         // prepare drawing 
         p.background(255,255,255);
-
+        
         // simulate 
         if( s.t < sim_end ){   
             timeStep();
@@ -829,7 +627,7 @@ let sim_emt = function(p, poutside) {
         }
         else {
             reset_time += pg.dt;
-            p_sim_end.style = ""
+            // p_sim_end.style = ""
             // write simulation end in the center of the canvas
         }
 
@@ -897,14 +695,7 @@ let sim_emt = function(p, poutside) {
         p.textAlign(p.LEFT, p.TOP);
         p.text("10 μm", ws/2 - 6, 0.07*hs);
 
-        p_time.innerHTML = "" + String(s.t.toFixed(1)) + "h"; 
-        p_prog.style = "width: " + String(s.t / sim_end * 100) + "%";
-
-        if( s.cells.length == params.general.N_max) {
-            p.fill(0,0,0);
-            p.text("Maximal number of cells reached. Cell division inactive.", -ws/2 + 4, 0.2*hs);
-        }
-
+        inputs.update_display(p, s);
     }
 
 
@@ -917,7 +708,7 @@ let sim_emt = function(p, poutside) {
             return;
         }
 
-        if ( mouse.x < -pg.w_screen/2 || mouse.x > pg.w_screen/2 || mouse.y < 0 || mouse.y > pg.h_screen) { return; };
+        if ( mouse.x < -pg.w_screen/2 || mouse.x > pg.w_screen/2 || mouse.y < -1.0 || mouse.y > pg.h_screen) { return; };
 
         let di;
         let dm = pg.w_screen + pg.h_screen;
@@ -943,8 +734,8 @@ let sim_emt = function(p, poutside) {
 
 
     p.windowResized = function () {
-        const height_proposal = parent.clientHeight;
-        const width_proposal = parent.clientWidth;
+        const height_proposal = sim_div.clientHeight;
+        const width_proposal = sim_div.clientWidth;
         const aspect_proposal = width_proposal / height_proposal;
         p.resizeCanvas(width_proposal, height_proposal * aspect_proposal / aspect);
     }

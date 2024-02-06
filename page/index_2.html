@@ -455,7 +455,7 @@
                 R_hard: 0.3, 
                 R_hard_div: 0.7, 
                 R_soft: 1.0,
-                color: p.color(30, 100, 20),
+                color: {r: 30, g: 100, b: 20},
                 dur_G2: 0.5,
                 dur_mitosis: 0.5,
                 k_apical_junction: 1.0,
@@ -483,7 +483,7 @@
                 R_hard: 0.3, 
                 R_hard_div: 0.7, 
                 R_soft: 1.0,
-                color: p.color(150, 0, 0),
+                color: {r: 150, g: 0, b: 0},
                 dur_G2: 0.5,
                 dur_mitosis: 0.5,
                 k_apical_junction: 1.0,
@@ -557,166 +557,168 @@
 
 
 
-    pcontrol.init = init_params;
+    let inputs = {
+                  params: params, 
+                  init_params: (p) => {},
+                  init_display: (p, s) => {},
+                  update_fnc: 0,
+                  update_display: (s) => {},
+                  ui_fnc: 0,
+                  screen_size: {w: 1280.0, h: 512}
+                };
+
+    let sim_emt_p5 = new p5( p => sim_emt(p, inputs, $('sim_div')), 'sim_div');
+    // let pcontrol = sim_emt_p5.getControl();
+
+    // var p = sim_emt_p5.getParams();
+    // // modify parameters 
+    // //p.general.w_screen = 30.0;
+    // //p.general.h_screen = 20.0;
+
+    // p.general.p_div_out = 0.95;
+    // p.general.w_init = 10.0;
+    // p.general.h_init = 5.0;
+    // p.cell_prop.max_basal_junction_dist = 1.0;
+    // p.cell_prop.apical_junction_init = 1.5;
+
+    // // Rhard
+    // p.cell_types.control.R_hard = 0.4; 
+    // p.cell_types.emt.R_hard     = 0.4;
+
+    // // Rsoft 
+    // p.cell_types.control.R_soft = 1.2; 
+    // p.cell_types.emt.R_soft     = 1.2;
+
+    // // stiffness_apical_apical 
+    // p.cell_types.control.stiffness_apical_apical = 2.0; 
+    // p.cell_types.emt.stiffness_apical_apical     = 2.0;
+
+
+    // // stiffness_repulsion
+    // p.cell_types.control.stiffness_repulsion = 4.0; 
+    // p.cell_types.emt.stiffness_repulsion     = 4.0;
+
+    // // max cyto length = 3.7
+    // // apical healing = 1.0
 
 
 
+    // pcontrol.run = false;
+    // pcontrol.INM = true;
+    // pcontrol.A = 9;
+    // pcontrol.B = 15;
+    // pcontrol.S = 21;
+    // pcontrol.N = 19;
+
+    // function controlFromHtml() {
+    //   pcontrol.hetero = $("hetero_input").checked;
+
+    //   if (pcontrol.hetero) {
+    //     pcontrol.N = 11;
+    //     pcontrol.INM = parseFloat($("INM_input_hetero").value) / 2.0
+    //     pcontrol.run = parseFloat($("run_input_hetero").value) / 2.0
+    //   }
+    //   else {
+    //     pcontrol.N = parseInt($("N_input").value);
+    //     if (pcontrol.N == 2) {
+    //       pcontrol.N = 11;
+    //     }
+
+    //     pcontrol.INM = $("INM_input_homo").checked ? 1.0 : 0.0;
+    //     pcontrol.run = $("run_input_homo").checked ? 1.0 : 0.0;
+
+    //     const emt_sc = $("EMT_scenario");
+    //     var emt_times = JSON.parse(emt_sc.options[emt_sc.selectedIndex].value);
+    //     // replace in emt_times -1 with Infinity
+    //     for (let i = 0; i < emt_times.length; i++) {
+    //       if (emt_times[i] == 0) {
+    //         emt_times[i] = Infinity;
+    //       }
+    //     }
+
+    //     pcontrol.A = emt_times[0];
+    //     pcontrol.B = emt_times[1];
+    //     pcontrol.S = emt_times[2];
+    //     pcontrol.P = pcontrol.B;
+    //   }
 
 
-    const poutside = {screen_size: {w: 1280.0, h: 512}};
+    //   sim_emt_p5.init();
+    // }
 
-    let sim_emt_p5 = new p5( p => sim_emt(p, poutside), 'sim_div');
-    let pcontrol = sim_emt_p5.getControl();
-
-    var p = sim_emt_p5.getParams();
-    // modify parameters 
-    //p.general.w_screen = 30.0;
-    //p.general.h_screen = 20.0;
-
-    p.general.p_div_out = 0.95;
-    p.general.w_init = 10.0;
-    p.general.h_init = 5.0;
-    p.cell_prop.max_basal_junction_dist = 1.0;
-    p.cell_prop.apical_junction_init = 1.5;
-
-    // Rhard
-    p.cell_types.control.R_hard = 0.4; 
-    p.cell_types.emt.R_hard     = 0.4;
-
-    // Rsoft 
-    p.cell_types.control.R_soft = 1.2; 
-    p.cell_types.emt.R_soft     = 1.2;
-
-    // stiffness_apical_apical 
-    p.cell_types.control.stiffness_apical_apical = 2.0; 
-    p.cell_types.emt.stiffness_apical_apical     = 2.0;
+    // // when run_button is pressed, call sim_emt.init() 
+    // $("run_button").addEventListener("click", function () {
+    //   sim_emt_p5.init();
+    // });
 
 
-    // stiffness_repulsion
-    p.cell_types.control.stiffness_repulsion = 4.0; 
-    p.cell_types.emt.stiffness_repulsion     = 4.0;
-
-    // max cyto length = 3.7
-    // apical healing = 1.0
+    // $("play_button").addEventListener("click", function () {
+    //   sim_emt_p5.pause();
+    // });
 
 
+    // $("hetero_input")
+    //   .addEventListener("change", function () {
+    //     let hetero = this.checked;
+    //     if (hetero) {
+    //       $("N_hetero").style.display = "block";
+    //       $("N_homo").style.display = "none";
+    //       $("INM_hetero").style.display = "block";
+    //       $("INM_homo").style.display = "none";
+    //       $("run_hetero").style.display = "block";
+    //       $("run_homo").style.display = "none";
+    //       $("scenario_div_hetero").style.display = "block";
+    //       $("scenario_div_homo").style.display = "none";
 
-    pcontrol.run = false;
-    pcontrol.INM = true;
-    pcontrol.A = 9;
-    pcontrol.B = 15;
-    pcontrol.S = 21;
-    pcontrol.N = 19;
+    //       //$("INM_input_hetero").value = ($("INM_input_homo").checked ? 1.0 : 0.0 )
+    //       //$("run_input_hetero").value = ($("run_input_homo").checked ? 1.0 : 0.0 )
+    //     }
+    //     else {
+    //       $("N_hetero").style.display = "none";
+    //       $("N_homo").style.display = "block";
+    //       $("INM_hetero").style.display = "none";
+    //       $("INM_homo").style.display = "block";
+    //       $("run_hetero").style.display = "none";
+    //       $("run_homo").style.display = "block";
+    //       $("scenario_div_hetero").style.display = "none";
+    //       $("scenario_div_homo").style.display = "block";
 
-    function controlFromHtml() {
-      pcontrol.hetero = $("hetero_input").checked;
+    //       //$("INM_input_homo").checked = (parseFloat($("INM_input_hetero").value) < 0.5 ? false : true )
+    //       //$("run_input_homo").checked = (parseFloat($("run_input_hetero").value) < 0.5 ? false : true )
+    //     }
 
-      if (pcontrol.hetero) {
-        pcontrol.N = 11;
-        pcontrol.INM = parseFloat($("INM_input_hetero").value) / 2.0
-        pcontrol.run = parseFloat($("run_input_hetero").value) / 2.0
-      }
-      else {
-        pcontrol.N = parseInt($("N_input").value);
-        if (pcontrol.N == 2) {
-          pcontrol.N = 11;
-        }
+    //     controlFromHtml();
+    //   });
 
-        pcontrol.INM = $("INM_input_homo").checked ? 1.0 : 0.0;
-        pcontrol.run = $("run_input_homo").checked ? 1.0 : 0.0;
+    // $("N_input")
+    //   .addEventListener("change", function () {
+    //     controlFromHtml();
+    //   });
 
-        const emt_sc = $("EMT_scenario");
-        var emt_times = JSON.parse(emt_sc.options[emt_sc.selectedIndex].value);
-        // replace in emt_times -1 with Infinity
-        for (let i = 0; i < emt_times.length; i++) {
-          if (emt_times[i] == 0) {
-            emt_times[i] = Infinity;
-          }
-        }
+    // $("INM_input_hetero")
+    //   .addEventListener("change", function () {
+    //     controlFromHtml();
+    //   });
 
-        pcontrol.A = emt_times[0];
-        pcontrol.B = emt_times[1];
-        pcontrol.S = emt_times[2];
-        pcontrol.P = pcontrol.B;
-      }
+    // $("INM_input_homo")
+    //   .addEventListener("change", function () {
+    //     controlFromHtml();
+    //   });
 
+    // $("run_input_hetero")
+    //   .addEventListener("change", function () {
+    //     controlFromHtml();
+    //   });
 
-      sim_emt_p5.init();
-    }
+    // $("run_input_homo")
+    //   .addEventListener("change", function () {
+    //     controlFromHtml();
+    //   });
 
-    // when run_button is pressed, call sim_emt.init() 
-    $("run_button").addEventListener("click", function () {
-      sim_emt_p5.init();
-    });
-
-
-    $("play_button").addEventListener("click", function () {
-      sim_emt_p5.pause();
-    });
-
-
-    $("hetero_input")
-      .addEventListener("change", function () {
-        let hetero = this.checked;
-        if (hetero) {
-          $("N_hetero").style.display = "block";
-          $("N_homo").style.display = "none";
-          $("INM_hetero").style.display = "block";
-          $("INM_homo").style.display = "none";
-          $("run_hetero").style.display = "block";
-          $("run_homo").style.display = "none";
-          $("scenario_div_hetero").style.display = "block";
-          $("scenario_div_homo").style.display = "none";
-
-          //$("INM_input_hetero").value = ($("INM_input_homo").checked ? 1.0 : 0.0 )
-          //$("run_input_hetero").value = ($("run_input_homo").checked ? 1.0 : 0.0 )
-        }
-        else {
-          $("N_hetero").style.display = "none";
-          $("N_homo").style.display = "block";
-          $("INM_hetero").style.display = "none";
-          $("INM_homo").style.display = "block";
-          $("run_hetero").style.display = "none";
-          $("run_homo").style.display = "block";
-          $("scenario_div_hetero").style.display = "none";
-          $("scenario_div_homo").style.display = "block";
-
-          //$("INM_input_homo").checked = (parseFloat($("INM_input_hetero").value) < 0.5 ? false : true )
-          //$("run_input_homo").checked = (parseFloat($("run_input_hetero").value) < 0.5 ? false : true )
-        }
-
-        controlFromHtml();
-      });
-
-    $("N_input")
-      .addEventListener("change", function () {
-        controlFromHtml();
-      });
-
-    $("INM_input_hetero")
-      .addEventListener("change", function () {
-        controlFromHtml();
-      });
-
-    $("INM_input_homo")
-      .addEventListener("change", function () {
-        controlFromHtml();
-      });
-
-    $("run_input_hetero")
-      .addEventListener("change", function () {
-        controlFromHtml();
-      });
-
-    $("run_input_homo")
-      .addEventListener("change", function () {
-        controlFromHtml();
-      });
-
-    // load EMT scenario from html
-    $("EMT_scenario").addEventListener("change", function () {
-      controlFromHtml();
-    });
+    // // load EMT scenario from html
+    // $("EMT_scenario").addEventListener("change", function () {
+    //   controlFromHtml();
+    // });
 
 
   </script>

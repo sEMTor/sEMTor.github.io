@@ -64,6 +64,8 @@ let sim_emt = function(p, inputs, sim_div) {
                 this.time_B = p.random(ct.events.time_B.min, ct.events.time_B.max);
                 this.time_S = p.random(ct.events.time_S.min, ct.events.time_S.max);
 
+                this.stiffness_apical_apical = ct.stiffness_apical_apical;
+
                 if( ct.hetero ) {
                     if( p.random() > 0.7 ) {
                         this.time_A = Infinity;
@@ -93,6 +95,8 @@ let sim_emt = function(p, inputs, sim_div) {
                 this.time_B = parent.time_B;
                 this.time_S = parent.time_S;
                 this.time_P = parent.time_P;
+
+                this.stiffness_apical_apical = ct.stiffness_apical_apical;
 
                 this.has_A = parent.has_A;
                 this.has_B = parent.has_B;
@@ -265,7 +269,7 @@ let sim_emt = function(p, inputs, sim_div) {
                                 con.l = s.cells.length - 1;
                             }
                         }
-                        s.ap_links[s.ap_links.length] = {l:i, r:s.cells.length-1,rl: ci.type.apical_junction_init};
+                        s.ap_links[s.ap_links.length] = {l:i, r:s.cells.length-1,rl: params.cell_prop.apical_junction_init};
 
                         for( let e = 0; e < s.ba_links.length; ++e ) {
                             const con = s.ba_links[e];
@@ -425,7 +429,7 @@ let sim_emt = function(p, inputs, sim_div) {
             const ci = s.cells[ s.ap_links[e].l ];
             const cj = s.cells[ s.ap_links[e].r ];
 
-            k_avg = 0.5*ci.type.k_apical_junction + 0.5*cj.type.k_apical_junction;
+            const k_avg = 0.5*ci.type.k_apical_junction + 0.5*cj.type.k_apical_junction;
             s.ap_links[e].rl *= p.exp(-dt * k_avg);
         }
 
@@ -503,11 +507,14 @@ let sim_emt = function(p, inputs, sim_div) {
                 const cj = s.cells[ s.ap_links[e].r ];
                 const aiaj = pv.sub(ci.A, cj.A);
                 const d = aiaj.mag();
+                
+                if( d > 1e-6 ) {
+                    aiaj.mult( 0.25*0.5*(ci.stiffness_apical_apical+cj.stiffness_apical_apical) );
 
-                aiaj.mult( 0.25*0.5*(ci.type.stiffness_apical_apical+cj.type.stiffness_apical_apical) );
-                aiaj.mult( (d - s.ap_links[e].rl)/(d) )
-                ci.fA.sub( aiaj );
-                cj.fA.add( aiaj );
+                    aiaj.mult( (d - s.ap_links[e].rl)/(d) )
+                    ci.fA.sub( aiaj );
+                    cj.fA.add( aiaj );
+                }
             }
 
             // integrate forces

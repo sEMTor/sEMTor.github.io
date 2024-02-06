@@ -96,7 +96,7 @@ function init_display(s) {
 
     function update_label(t, el) {
       if( t < pg.t_end && !emt.hetero )
-        el.style = "left: " + String(t / pg.t_end * 100) + "%";
+        el.style = "left: " + String(t / pg.t_end * 100) + "%; display: block;";
     else
         el.style = "display: none;"
     } 
@@ -111,7 +111,6 @@ function init_display(s) {
         p_B.innerHTML  = "B"
 
     p_sim_end.style = "display:none;"
-
 }
 
 const p_time = $("time");
@@ -158,56 +157,7 @@ function controlFromHtml() {
   const pg = params.general;
   const emt = params.cell_types.emt;
 
-  let hetero = $("hetero_input").checked;
-
-  if (hetero) {
-    pg.N_emt = 11;
-    pg.N_init = pg.N_emt + 35;
-
-    emt.INM = parseFloat($("INM_input_hetero").value) / 2.0
-    emt.run = parseFloat($("run_input_hetero").value) / 2.0
-    emt.hetero = true;
-
-    emt.events.time_A = {min: 6, max: 24};
-    emt.events.time_B = {min: 6, max: 24};
-    emt.events.time_S = {min: 6, max: 24};
-    emt.events.time_P = {min: 6, max: 24};
-
-    // timings are always the same rage: 
-  }
-  else {
-    let N_cases = parseInt($("N_input").value);
-    if (N_cases == 0) {
-      pg.N_emt = 0;
-    } else if (N_cases == 1) {
-      pg.N_emt = 1;
-    } else {
-      pg.N_emt = 11;
-    }
-    pg.N_init = pg.N_emt + 35;
-
-    emt.INM = $("INM_input_homo").checked ? 1.0 : 0.0;
-    emt.run = $("run_input_homo").checked ? 1.0 : 0.0;
-
-    const emt_sc = $("EMT_scenario");
-    var emt_times = JSON.parse(emt_sc.options[emt_sc.selectedIndex].value);
-    // replace in emt_times = 0 with Infinity
-    for (let i = 0; i < emt_times.length; i++) {
-      if (emt_times[i] == 0) {
-        emt_times[i] = Infinity;
-      }
-    }
-
-    let A = emt_times[0];
-    let B = emt_times[1];
-    let S = emt_times[2];
-    let P = B;
-
-    emt.events.time_A = {min: A, max: A+0.05};
-    emt.events.time_B = {min: B, max: B+0.05};
-    emt.events.time_S = {min: S, max: S+0.05};
-    emt.events.time_B = {min: P, max: P+0.05};
-  }
+  emt.events.time_B = parseInt($("B_input").value) == 1 ? {min: 6, max: 24} : {min: Infinity, max: Infinity};
 
   sim_emt_p5.init();
 }
@@ -221,4 +171,8 @@ $("run_button").addEventListener("click", function () {
 
 $("play_button").addEventListener("click", function () {
   sim_emt_p5.pause();
+});
+
+$("ps_attached").addEventListener("change", function () {
+    controlFromHtml();
 });

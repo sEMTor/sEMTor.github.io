@@ -21,10 +21,10 @@
 
     <div class="container mx-auto max-w-2xl">
       <p class="text-4xl font-semibold mb-4 mt-4 md:mb-8">
-        <span
+        <a href="/"
           class="bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-red-500 dark:from-green-400 dark:to-red-400">
           sEMTor – The EMT simulator
-        </span>
+      </a>
       </p>
 
       <p class="dark:text-slate-400" text>
@@ -32,41 +32,16 @@
           Developed by Steffen Plunder, see the companion article:
         </span>
         <br><br>
-        <span class="dark:text-slate-200 font-semibold">
-          Modelling variability and heterogeneity of EMT scenarios highlights nuclear positioning and protrusions as
-          main drivers of extrusion
-        </span>
+        <div class="dark:text-slate-200 font-semibold">
+          Occurrence of non-apical mitoses at the primitive streak, induced by relaxation of actomyosin and acceleration of the cell cycle, contributes to cell delamination during mouse gastrulation
+        </div>
         <br>
         <span class="italic">
-          Steffen Plunder, Cathy Danesin, Bruno Glise, Marina A Ferreira, Sara Merino Aceituno and Eric Theveneau, 2023,
-        </span> <a href="https://www.biorxiv.org/content/10.1101/2023.11.17.567510v1" class="underline">bioRxiv</a>.
+          Evangéline Despin-Guitard, Steffen Plunder, Navrita Mathiah,  Eric Theveneau and Isabelle Migeotte, 2024,
+        </span> <a href="https://www.biorxiv.org/content/10.1101/2024.01.24.577096v1" target="_blank" class="underline">bioRxiv</a>.
       </p>
       <br>
 
-      An interactive, agent-based model to simulate epithelial-to-mesenchymal transitions-like events in a
-      pseudostratified epithelium. <br>
-      &emsp;The simulation has epithelial <span class="text-green-500 dark:text-green-400">control cells (green)</span>
-      and <span class="text-red-500 dark:text-red-400">experimental cells (red)</span>.
-      Experimental cells can be instructed to perform some or all of the following events in various orders:
-      <ul class="list-item list-inside pl-4">
-        <li>
-          <span class="font-bold italic">→ A</span>&ensp; Loss of apical adhesion (detachment from neighboring apical
-          points).
-        </li>
-        <li>
-          <span class="font-bold italic">→ B</span>&ensp; Loss of basal adhesion (detachment from basal line).
-        </li>
-        <li>
-          <span class="font-bold italic">→ S</span>&ensp; Relaxation of straightness (apical/basal points and nuclei are
-          no longer forced to align).
-        </li>
-        <li>
-          <span class="font-bold italic">→ P</span>&ensp;
-          Protrusive activities (seek-and grab behavior of basal points in direction of the polarity, typically basally,
-          can only occur if B is part of the selected EMT-like scenario).
-        </li>
-      </ul>
-      <br>
 
       <div class="rounded-lg ring-red-800 ring-2 p-2 mt-2 mb-8 italic">
         Note: Our scientific conclusions from the model are based on statistics obtained from thousands of simulations
@@ -81,7 +56,7 @@
         border-slate-200 border-2
         dark:border-0">
           <div id="simulation" class="text-slate-800">
-            <div class="mx-auto max-w-2xlw-full relative">
+            <div class="mx-auto w-full relative">
               <p>
                 <span class="font-semibold italic">Simulation</span>
                 <span class="text-red-800 float-right text-xs font-thin">Apical side (red)
@@ -154,7 +129,7 @@
 <div class="flex items-center space-x-4">
     <span class="">off</span> 
     <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" id="ps_cc_duration" class="sr-only peer">
+        <input type="checkbox" id="ps_attached" name="ps_attached" class="sr-only peer">
         <div
             class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
         </div>
@@ -187,7 +162,7 @@
 <div class="flex items-center space-x-4">
     <span class="">3h</span> 
     <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" id="epi_cc_duration" class="sr-only peer">
+        <input type="checkbox" id="epi_cc_duration" name="epi_cc_duration" class="sr-only peer">
         <div
             class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
         </div>
@@ -200,7 +175,7 @@
 <div class="flex items-center space-x-4">
     <span class="">3h</span> 
     <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" id="ps_cc_duration" class="sr-only peer">
+        <input type="checkbox" id="ps_cc_duration" name="ps_cc_duration" class="sr-only peer">
         <div
             class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
         </div>
@@ -218,7 +193,7 @@
 <div class="flex items-center space-x-4">
     <span class="">0.5h</span> 
     <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" id="epi_div_duration" class="sr-only peer">
+        <input type="checkbox" id="epi_div_duration" name="epi_div_duration" class="sr-only peer">
         <div
             class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
         </div>
@@ -231,7 +206,7 @@
 <div class="flex items-center space-x-4">
     <span class="">0.5h</span> 
     <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" id="ps_div_duration" class="sr-only peer">
+        <input type="checkbox" id="ps_div_duration" name="ps_div_duration" class="sr-only peer">
         <div
             class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
         </div>
@@ -264,7 +239,7 @@
 <div class="flex items-center space-x-4">
     <span class="">3h</span> 
     <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" id="epi_cc_duration" class="sr-only peer">
+        <input type="checkbox" id="epi_cc_duration" name="epi_cc_duration" class="sr-only peer">
         <div
             class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
         </div>
@@ -277,7 +252,7 @@
 <div class="flex items-center space-x-4">
     <span class="">3h</span> 
     <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" id="ps_cc_duration" class="sr-only peer">
+        <input type="checkbox" id="ps_cc_duration" name="ps_cc_duration" class="sr-only peer">
         <div
             class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
         </div>
@@ -295,7 +270,7 @@
 <div class="flex items-center space-x-4">
     <span class="">0.5h</span> 
     <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" id="epi_div_duration" class="sr-only peer">
+        <input type="checkbox" id="epi_div_duration" name="epi_div_duration" class="sr-only peer">
         <div
             class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
         </div>
@@ -308,7 +283,7 @@
 <div class="flex items-center space-x-4">
     <span class="">0.5h</span> 
     <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" id="ps_div_duration" class="sr-only peer">
+        <input type="checkbox" id="ps_div_duration" name="ps_div_duration" class="sr-only peer">
         <div
             class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
         </div>

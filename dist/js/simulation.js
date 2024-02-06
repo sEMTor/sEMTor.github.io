@@ -265,7 +265,7 @@ let sim_emt = function(p, inputs, sim_div) {
                                 con.l = s.cells.length - 1;
                             }
                         }
-                        s.ap_links[s.ap_links.length] = {l:i, r:s.cells.length-1,rl: pv.dist(ci.A, cj.A)};
+                        s.ap_links[s.ap_links.length] = {l:i, r:s.cells.length-1,rl: ci.type.apical_junction_init};
 
                         for( let e = 0; e < s.ba_links.length; ++e ) {
                             const con = s.ba_links[e];
@@ -412,14 +412,21 @@ let sim_emt = function(p, inputs, sim_div) {
                 const too_long = ci.eta_A + ci.eta_B - m_cl
 
                 if( too_long > 1 ){
-                    ci.eta_A = ci.eta_A * m_cl / (ci.eta_A + ci.eta_B);
-                    ci.eta_B = ci.eta_B * m_cl / (ci.eta_A + ci.eta_B);
+                    const A = ci.eta_A * m_cl / (ci.eta_A + ci.eta_B);
+                    const B = ci.eta_B * m_cl / (ci.eta_A + ci.eta_B);
+
+                    ci.eta_A = p.exp(-dt * ci.type.k_cytos ) * (ci.eta_A - A) + A;
+                    ci.eta_B = p.exp(-dt * ci.type.k_cytos ) * (ci.eta_B - B) + B;
                 }
             }
         }
         
         for(let e = 0; e < s.ap_links.length; ++e) {
-            s.ap_links[e].rl *= p.exp(-dt * 1 );
+            const ci = s.cells[ s.ap_links[e].l ];
+            const cj = s.cells[ s.ap_links[e].r ];
+
+            k_avg = 0.5*ci.type.k_apical_junction + 0.5*cj.type.k_apical_junction;
+            s.ap_links[e].rl *= p.exp(-dt * k_avg);
         }
 
         dt = pg.dt / pg.n_substeps;
@@ -443,9 +450,10 @@ let sim_emt = function(p, inputs, sim_div) {
                         const xixj = pv.sub(cj.pos, ci.pos);
                         const d = xixj.mag();
                         const Rij = ci.R_soft + cj.R_soft;
+                        const sr = ci.type.stiffness_repulsion + cj.type.stiffness_repulsion;
                         if (d < Rij && d > Rij / 20) {
-                            ci.f.add(pv.mult(xixj, -ci.type.stiffness_repulsion * (Rij - d) / d));
-                            cj.f.sub(pv.mult(xixj, -ci.type.stiffness_repulsion * (Rij - d) / d));
+                            ci.f.add(pv.mult(xixj, -sr * (Rij - d) / (d*Rij*Rij)));
+                            cj.f.sub(pv.mult(xixj, -sr * (Rij - d) / (d*Rij*Rij)));
                         }
                     }
                 }
@@ -495,7 +503,8 @@ let sim_emt = function(p, inputs, sim_div) {
                 const cj = s.cells[ s.ap_links[e].r ];
                 const aiaj = pv.sub(ci.A, cj.A);
                 const d = aiaj.mag();
-                aiaj.mult( 0.25*0.5*ci.type.stiffness_apical_apical );
+
+                aiaj.mult( 0.25*0.5*(ci.type.stiffness_apical_apical+cj.type.stiffness_apical_apical) );
                 aiaj.mult( (d - s.ap_links[e].rl)/(d) )
                 ci.fA.sub( aiaj );
                 cj.fA.add( aiaj );

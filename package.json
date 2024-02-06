@@ -2,12 +2,14 @@
   "name": "semtor.github.io",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": ".eleventy.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postcss:watch": "postcss page/style.css -o page/css/main.css --watch",
-    "postcss:build": "postcss page/style.css -o page/css/main.css",
-    "copyjs": "copyfiles -u 4 node_modules/tw-elements/dist/js/tw-elements.umd.min.js page/js"
+    "start": "npm-run-all -p dev:*",
+    "build": "run-s build:*",
+    "dev:postcss": "postcss page/style.css -o dist/css/main.css --watch",
+    "dev:11ty": "npx eleventy --serve",
+    "build:postcss": "postcss page/style.css -o dist/css/main.css",
+    "build:11ty": "npx eleventy"
   },
   "repository": {
     "type": "git",
@@ -20,8 +22,10 @@
   },
   "homepage": "sEMTor.github.io",
   "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
     "autoprefixer": "^10.4.16",
     "copyfiles": "^2.4.1",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.4.31",
     "postcss-cli": "^10.1.0",
     "tailwindcss": "^3.3.5",

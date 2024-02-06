@@ -894,6 +894,10 @@ input[type="range"]:active::-webkit-slider-thumb {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
 .-ml-\[1\.5rem\] {
   margin-left: -1.5rem;
 }
@@ -1157,6 +1161,30 @@ input[type="range"]:active::-webkit-slider-thumb {
 }
 .min-h-\[auto\] {
   min-height: auto;
+}
+.min-h-\[400px\] {
+  min-height: 400px;
+}
+.min-h-\[200px\] {
+  min-height: 200px;
+}
+.min-h-screen {
+  min-height: 100vh;
+}
+.min-h-\[100px\] {
+  min-height: 100px;
+}
+.min-h-\[150px\] {
+  min-height: 150px;
+}
+.min-h-\[120px\] {
+  min-height: 120px;
+}
+.min-h-\[140px\] {
+  min-height: 140px;
+}
+.min-h-\[110px\] {
+  min-height: 110px;
 }
 .\!w-px {
   width: 1px !important;

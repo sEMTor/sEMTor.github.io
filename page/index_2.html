@@ -3,8 +3,13 @@
 
 <head>
   <meta charset="utf-8">
-  <title>EMT simulation</title>
-  <meta name="description" content="EMT simulation">
+  <title>sEMTor – The EMT simulator</title>
+  <meta name="description" content="Interactive EMT simulator 
+  acompaning the article: 
+  Modelling variability and heterogeneity of EMT scenarios highlights nuclear positioning 
+  and protrusions as main drivers of extrusion by 
+  Steffen Plunder, Cathy Danesin, Bruno Glise, Marina A Ferreira, Sara Merino Aceituno and Eric Theveneau.
+  ">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/main.css">
 </head>
@@ -21,9 +26,19 @@
         </span>
       </p>
 
-      <p class="italic dark:text-slate-500 text-sm" text>      
-        Developed by Steffen Plunder, see the companion article 
-        [Title], [list of authors], [link].
+      <p class="dark:text-slate-400" text>
+        <span class="italic text-sm">
+          Developed by Steffen Plunder, see the companion article:
+        </span>
+        <br><br>
+        <span class="dark:text-slate-200 font-semibold">
+          Modelling variability and heterogeneity of EMT scenarios highlights nuclear positioning and protrusions as
+          main drivers of extrusion
+        </span>
+        <br>
+        <span class="italic">
+          Steffen Plunder, Cathy Danesin, Bruno Glise, Marina A Ferreira, Sara Merino Aceituno and Eric Theveneau, 2023,
+        </span> <a href="https://www.biorxiv.org/content/10.1101/2023.11.17.567510v1" class="underline">bioRxiv</a>.
       </p>
       <br>
 
@@ -45,11 +60,12 @@
           no longer forced to align).
         </li>
         <li>
-          <span class="font-bold italic">→ P</span>&ensp; 
-          Protrusive activities (seek-and grab behavior of basal points in direction of the polarity, typically basally, can only occur if B is part of the selected EMT-like scenario).
+          <span class="font-bold italic">→ P</span>&ensp;
+          Protrusive activities (seek-and grab behavior of basal points in direction of the polarity, typically basally,
+          can only occur if B is part of the selected EMT-like scenario).
         </li>
       </ul>
-    <br>
+      <br>
 
       <div class="rounded-lg ring-red-800 ring-2 p-2 mt-2 mb-8 italic">
         Note: Our scientific conclusions from the model are based on statistics obtained from thousands of simulations
@@ -74,7 +90,7 @@
                   id="sim_end" style="display: none;">Simulation
                   end: Click to restart simulation.</span>
               </p>
-              <div id="sim_div" class="bg-slate-50"></div>
+              <div id="sim_div" class="bg-slate-50 aspect-w-16 aspect-h-9"></div>
               <div>
                 <p class="text-slate-800 float-right text-xs font-thin">Basal side (black)</p>
                 <p id="time" class="text-xs font-bold mx-4 font-mono"> Time = 10</p>
@@ -122,7 +138,7 @@
 
           <div class="grid sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-1 gap-4">
             <div class=" dark:bg-slate-800 rounded-lg border-t-2 border-slate-200 dark:border-slate-500">
-              <div class="container text-sm pt-2 w-full">
+              <div class="container text-sm pt-2 w-full min-h-[140px]">
                 <div class="p-1 my-2 text-center">
                   <p class="pl-2 font-semibold">Number of experimental cells
                   </p>
@@ -140,7 +156,7 @@
                   </div>
                   <div id="N_hetero" style="display: none;">
                     <div class="mt-2">
-                      10 (heterogeneous) EMT cells
+                      11 (heterogeneous) EMT cells
                     </div>
                     <div class="font-extralight text-xs pt-2">
                       Number of cells undergoing EMT. Disable heterogeneity to
@@ -152,7 +168,7 @@
             </div>
 
             <div class=" dark:bg-slate-800 rounded-lg border-t-2 border-slate-200 dark:border-slate-500">
-              <div class="container text-sm pt-2 w-full">
+              <div class="container text-sm pt-2 w-full  min-h-[140px]">
                 <div class="p-1 my-2 text-center">
                   <div id="INM_hetero" style="display: none;">
                     <p class="pl-2 font-semibold">Interkinetic nuclear movements
@@ -164,7 +180,8 @@
                       <span class="absolute right-0">100%</span>
                     </div>
                     <div class="font-extralight text-xs">
-                      Determines probability that nuclei of experimental cells perform pre-mitosis rapid apical movement (PRAM).
+                      Determines probability that nuclei of experimental cells perform pre-mitosis rapid apical movement
+                      (PRAM).
                     </div>
                   </div>
                   <div id="INM_homo">
@@ -184,58 +201,8 @@
               </div>
             </div>
 
-            <!--
-            <div class="dark:bg-slate-800 rounded-lg  border-t-2 border-slate-200 dark:border-slate-500">
-              <div class="container text-sm pt-2">
-
-                <div class="p-1 my-2">
-                  <div class="w-full text-center">
-                    <div class="">
-                      <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" value="" checked name="INM" id="INM_input_hetero" class="sr-only peer">
-                        <div
-                          class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                        </div>
-                        <span class="pl-4 font-semibold">Interkinetic nuclear movement
-                        </span>
-                      </label>
-                    </div>
-                    <div class="font-extralight text-xs">
-                      If unchecked, EMT cells will not perform rapid apical directed movement prior the mitosis phase.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            -->
-
-            <!--
-            <div class="dark:bg-slate-800 rounded-lg  border-t-2 border-slate-200 dark:border-slate-500">
-              <div class="container text-sm pt-2">
-                <div class="p-1 my-2">
-                  <div class="w-full text-center">
-                    <div class="">
-                      <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" name="Run" id="run_input" class="sr-only peer">
-                        <div
-                          class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                        </div>
-                        <span class="pl-4 font-semibold">EMT: cell protrusions
-                        </span>
-                      </label>
-                    </div>
-                    <div class="font-extralight text-xs">
-                      If checked, all EMT cells will have protrusive activities which lead to a basally directed
-                      migration. Only if the selected EMT scenario includes B.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            -->
-
             <div class=" dark:bg-slate-800 rounded-lg border-t-2 border-slate-200 dark:border-slate-500">
-              <div class="container text-sm pt-2 w-full">
+              <div class="container text-sm pt-2 w-full min-h-[140px]">
                 <div class="p-1 my-2 text-center">
                   <div id="run_hetero" style="display: none;">
                     <p class="pl-2 font-semibold">EMT: Protrusions
@@ -247,8 +214,10 @@
                       <span class="absolute right-0">100%</span>
                     </div>
                     <div class="font-extralight text-xs">
-                      Determines probability that the basal point of experimental cells display a seek-and-grab behavior (<span class="font-bold italic">P</span>). 
-                      This can only occur if the EMT scenario includes <span class="font-bold italic">B</span> (loss of basal adhesion).
+                      Determines probability that the basal point of experimental cells display a seek-and-grab behavior
+                      (<span class="font-bold italic">P</span>).
+                      This can only occur if the EMT scenario includes <span class="font-bold italic">B</span> (loss of
+                      basal adhesion).
                     </div>
                   </div>
                   <div id="run_homo">
@@ -261,14 +230,15 @@
                       </div>
                     </label>
                     <div class="font-extralight text-xs">
-                      Determines if the basal point of experimental cells display a seek-and-grab behavior (<span class="font-bold italic">P</span>). 
-                      This can only occur if the EMT scenario includes <span class="font-bold italic">B</span> (loss of basal adhesion).
+                      Determines if the basal point of experimental cells display a seek-and-grab behavior (<span
+                        class="font-bold italic">P</span>).
+                      This can only occur if the EMT scenario includes <span class="font-bold italic">B</span> (loss of
+                      basal adhesion).
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
 
             <div class="dark:bg-slate-800 rounded-lg  border-t-2 border-slate-200 dark:border-slate-500">
               <div class="container text-sm pt-2">
@@ -285,7 +255,7 @@
                       </label>
                     </div>
                     <div class="font-extralight text-xs">
-                      If checked, each experimental cell randomly picks an EMT-like scenario. 
+                      If checked, each experimental cell randomly picks an EMT-like scenario.
                       Then users can set the probability of INM and Protrusions to 0, 50 or 100%.
                     </div>
                   </div>
@@ -295,7 +265,7 @@
 
             <div class="dark:bg-slate-800 rounded-lg  border-t-2 border-slate-200 dark:border-slate-500">
               <div class="container text-sm pt-2">
-                <div class="p-1 my-2">
+                <div class="p-1 my-2  min-h-[120px]">
                   <div class="flex flex-wrap justify-center text-center">
                     <div id="scenario_div_homo">
                       <div>
@@ -305,8 +275,8 @@
                         <label data-te-select-init-ref class="pl-2 font-semibold">
                           EMT-like scenarios
                         </label>
-                        <select data-te-select-init id="EMT_scenario"> 
-                        <!--<option value="[0,0,0]">no EMT  </option>-->
+                        <select data-te-select-init id="EMT_scenario">
+                          <!--<option value="[0,0,0]">no EMT  </option>-->
                           <option value="[12,0,0]">A</option>
                           <option value="[0,12,0]">B</option>
                           <option value="[0,0,12]">S</option>
@@ -344,32 +314,6 @@
                 </div>
               </div>
             </div>
-
-            <!--
-                    <div class="w-full container m-8 items-center">
-                        <div class="m-4 rounded-lg bg-slate-400 mx-max max-w-fit">
-                            <span class="text-center mx-2">
-                                Load example parameters 
-                            </span>
-                            <select id="example_settings"
-                                class="text-white bg-slate-800 hover:bg-slate-600 focus:ring-4 focus:outline-none focus:ring-slate-800 font-medium rounded-lg  text-sm text-center inline-flex items-center">
-                                <option value="[1,1,0,0,0,0]">Individual cell & no EMT</option>
-                                <option value="[1,1,0,9,15,0]">Individual cell & EMT: [AB]</option>
-                                <option value="[1,0,0,9,15,0]">Individual cell & no INM & EMT: [AB]</option>
-                                <option value="[1,1,1,9,15,0]">Individual cell & EMT: [ABp]</option>
-                                <option value="[10,1,0,0,0,0]">Group of cells & no EMT</option>
-                                <option value="[10,1,0,9,15,0]">Group of cells & EMT: [AB]</option>
-                                <option value="[10,0,0,9,15,0]" selected="selected">Group of cells & no INM & EMT: [AB]
-                                </option>
-                                <option value="[10,1,1,9,15,0]">Group of cells & EMT: [ABp]</option>
-                            </select>
-                        </div>
-                    </div>-->
-
-
-
-
-
           </div>
         </div>
       </div>
@@ -424,301 +368,330 @@
     var $ = function (id) { return document.getElementById(id); };
 
     const params = {
-        general: {
-            t_end: 96,
-            dt: 0.1, 
-            random_seed: 0,
-            init_basal_junction_dist: 0.3,
-            N_init: 30,
-            N_max: 70,
-            N_emt: 2,
-            w_init: 8,
-            h_init: 10,
-            mu: 0.2,
-            n_substeps: 30,
-            alg_dt: 0.01,
-            w_screen: 25,
-            h_screen: 20,
-            p_div_out: 0.8,
-        },
-        cell_prop: {
-            apical_junction_init: 0.3,
-            max_basal_junction_dist: 0.6,
-            basal_daming_ratio: 1.0,
-            cytos_init: 1.5,
-            diffusion: 0.1,
+      general: {
+        t_end: 48,
+        dt: 0.1,
+        random_seed: 0,
+        init_basal_junction_dist: 0.3,
+        N_init: 30,
+        N_max: 80,
+        N_emt: 1,
+        w_init: 8,
+        h_init: 10,
+        mu: 0.2,
+        n_substeps: 30,
+        alg_dt: 0.01,
+        w_screen: 24,
+        h_screen: 24 * 3/4,
+        p_div_out: 0.8,
+      },
+      cell_prop: {
+        apical_junction_init: 0.3,
+        max_basal_junction_dist: 0.6,
+        basal_daming_ratio: 1.0,
+        cytos_init: 1.5,
+        diffusion: 0.1,
 
+      },
+      cell_types: {
+        control: {
+          name: 'control',
+          R_hard: 0.3,
+          R_hard_div: 0.7,
+          R_soft: 1.0,
+          color: { r: 30, g: 100, b: 20 },
+          dur_G2: 0.5,
+          dur_mitosis: 0.5,
+          k_apical_junction: 1.0,
+          k_cytos: 5.0,
+          max_cytoskeleton_length: Infinity,
+          run: 0.0,
+          running_speed: 1.0,
+          running_mode: 0,
+          stiffness_apical_apical: 5.0,
+          stiffness_apical_apical_div: 10.0,
+          stiffness_nuclei_apical: 2.0,
+          stiffness_nuclei_basal: 2.0,
+          stiffness_repulsion: 1.0,
+          stiffness_straightness: 15.0,
+          lifespan: { min: 10, max: 21 },
+          INM: 1.0,
+          hetero: false,
+          events: {
+            time_A: { min: Infinity, max: Infinity},
+            time_B: { min: Infinity, max: Infinity},
+            time_S: { min: Infinity, max: Infinity},
+            time_P: { min: Infinity, max: Infinity },
+          }
         },
-        cell_types: {
-            control: {
-                name: 'control',
-                R_hard: 0.3, 
-                R_hard_div: 0.7, 
-                R_soft: 1.0,
-                color: {r: 30, g: 100, b: 20},
-                dur_G2: 0.5,
-                dur_mitosis: 0.5,
-                k_apical_junction: 1.0,
-                k_cytos: 5.0,
-                run: 0.0,
-                running_speed: 1.0,
-                running_mode: 0,
-                stiffness_apical_apical: 5.0,
-                stiffness_apical_apical_div: 10.0,
-                stiffness_nuclei_apical: 2.0,
-                stiffness_nuclei_basal: 2.0,
-                stiffness_repulsion: 1.0,
-                stiffness_straightness: 15.0,
-                lifespan: {min: 10, max: 21},
-                INM: 1.0,
-                events: {
-                    time_A: {min:Infinity, max:Infinity},
-                    time_B: {min:Infinity, max:Infinity},
-                    time_S: {min:Infinity, max:Infinity},
-                    time_P: {min:Infinity, max:Infinity},
+        emt: {
+          name: 'emt',
+          R_hard: 0.3,
+          R_hard_div: 0.7,
+          R_soft: 1.0,
+          color: { r: 150, g: 0, b: 0 },
+          dur_G2: 0.5,
+          dur_mitosis: 0.5,
+          k_apical_junction: 1.0,
+          k_cytos: 5.0,
+          max_cytoskeleton_length: Infinity,
+          run: 0.0,
+          running_speed: 1.0,
+          running_mode: 0,
+          stiffness_apical_apical: 5.0,
+          stiffness_apical_apical_div: 10.0,
+          stiffness_nuclei_apical: 2.0,
+          stiffness_nuclei_basal: 2.0,
+          stiffness_repulsion: 1.0,
+          stiffness_straightness: 15.0,
+          lifespan: { min: 10, max: 21 },
+          INM: 0.0,
+          hetero: false,
+          events: {
+            time_A: { min: 6, max: 24 },
+            time_B: { min: 6, max: 24 },
+            time_S: { min: 6, max: 24 },
+            time_P: { min: 6, max: 24 },
+          }
+        }
+      }
+    }
+
+    function init_display(s) {
+        const pg = params.general;
+        const emt = params.cell_types.emt;  
+
+        function update_label(t, el) {
+          if( t < pg.t_end && !emt.hetero )
+            el.style = "left: " + String(t / pg.t_end * 100) + "%";
+        else
+            el.style = "display: none;"
+        } 
+
+        update_label(emt.events.time_A.min, p_A);
+        update_label(emt.events.time_B.min, p_B);
+        update_label(emt.events.time_S.min, p_S);
+
+        if( emt.run > 0 )
+            p_B.innerHTML  = "B(p)"
+        else
+            p_B.innerHTML  = "B"
+
+        p_sim_end.style = "display:none;"
+
+        // update timing table: 
+
+        let j = 0; 
+        p_info.innerHTML = '';
+        for(let i = 0; i < s.cells.length; ++i) {
+            if( s.cells[i].type.name == 'emt' ) {
+                const A = s.cells[i].time_A;
+                const B = s.cells[i].time_B;
+                const S = s.cells[i].time_S;
+                const P = s.cells[i].time_P;
+                const row_s = '<td class="px-6 py-2 font-medium">' + String(j+1) + '</td>' +
+                            '<td class="px-6 py-2 font-medium">' + (A < Infinity ? A.toFixed(1)+"h" : "") + '</td>' +
+                            '<td class="px-6 py-2 font-medium">' + (B < Infinity ? B.toFixed(1)+"h" : "") + '</td>' +
+                            '<td class="px-6 py-2 font-medium">' + (S < Infinity ? S.toFixed(1)+"h" : "") + '</td>' +
+                            '<td class="px-6 py-2 font-medium">' + (s.cells[i].has_inm ? "Yes" : "") + '</td>' +
+                            '<td class="px-6 py-2 font-medium">' + (P*B < Infinity ? "Yes" : "") + '</td>';
+
+                if( j < p_info.rows.length ) {
+                    const row = p_info.rows[j];
+                    row.innerHTML = row_s;
                 }
-            },
-            emt: {
-                name: 'emt',
-                R_hard: 0.3, 
-                R_hard_div: 0.7, 
-                R_soft: 1.0,
-                color: {r: 150, g: 0, b: 0},
-                dur_G2: 0.5,
-                dur_mitosis: 0.5,
-                k_apical_junction: 1.0,
-                k_cytos: 5.0,
-                run: 0.0,
-                running_speed: 1.0,
-                running_mode: 0,
-                stiffness_apical_apical: 5.0,
-                stiffness_apical_apical_div: 10.0,
-                stiffness_nuclei_apical: 2.0,
-                stiffness_nuclei_basal: 2.0,
-                stiffness_repulsion: 1.0,
-                stiffness_straightness: 15.0,
-                lifespan: {min: 10, max: 21},
-                INM: 0.0,
-                events: {
-                    time_A: {min:6, max:24},
-                    time_B: {min:6, max:24},
-                    time_S: {min:6, max:24},
-                    time_P: {min:6, max:24},
+                else {
+                    const row = p_info.insertRow(-1);
+                    row.innerHTML = row_s;
                 }
+                j += 1;
             }
+        }
+
+        for(let i = j; i < 11; ++i) {
+            if( i < p_info.rows.length ) {
+                const row = p_info.rows[i];
+                row.innerHTML =  '<td class="px-6 py-2 font-medium">' + String(i+1) + '</td>';
+            }
+            else {
+                const row = p_info.insertRow(-1);
+                row.innerHTML =  '<td class="px-6 py-2 font-medium">' + String(i+1) + '</td>';
+            }
+        }
+    }
+
+    const p_time = $("time");
+    const p_prog = $("progress_bar");
+    const p_A = $("A_time");
+    const p_B = $("B_time");
+    const p_S = $("S_time");
+    const p_sim_end = $("sim_end");
+    const p_info = $("timing_table");
+
+    function update_display(p, s) {
+        const pg = params.general;
+        p_time.innerHTML = "" + String(s.t.toFixed(1)) + "h"; 
+        p_prog.style = "width: " + String(s.t / params.general.t_end * 100) + "%";
+
+        if( s.cells.length == params.general.N_max) {
+             p.fill(0,0,0);
+             p.text("Maximal number of cells reached. Cell division inactive.", -pg.w_screen/2 + 4, 0.2*pg.h_screen);
+        }
+
+        if( s.t > pg.t_end ) {
+          p_sim_end.style = "display:block;"
         }
     };
 
-
-    function init_params(pcontrol, params) {
-      if(pcontrol.hetero) {
-              // copy values from pcontrol into the emt cell type
-              params.general.N_emt = 10;
-              params.general.N_init = params.general.N_emt + 35;
-              const emt = params.cell_types.emt;
-              emt.events.time_A.min = 6.0;
-              emt.events.time_B.min = 6.0;
-              emt.events.time_S.min = 6.0;
-      
-              emt.events.time_P.min = pcontrol.B;
-              emt.events.time_P.max = pcontrol.B;
-      
-              emt.run = pcontrol.run;
-              emt.INM = pcontrol.INM;
-      
-              // set max values for emt events time_A, time_B, time_S to the min values
-              emt.events.time_A.max = emt.events.time_A.min + 18;
-              emt.events.time_B.max = emt.events.time_B.min + 18;
-              emt.events.time_S.max = emt.events.time_S.min + 18;
-          }
-          else 
-          {    
-              // copy values from pcontrol into the emt cell type
-              params.general.N_emt = pcontrol.N;
-              params.general.N_init = params.general.N_emt + 35;
-              const emt = params.cell_types.emt;
-              emt.events.time_A.min = pcontrol.A;
-              emt.events.time_B.min = pcontrol.B;
-              emt.events.time_S.min = pcontrol.S;
-      
-              emt.events.time_P.min = pcontrol.B;
-              emt.events.time_P.max = pcontrol.B;
-      
-              emt.run = pcontrol.run;
-      
-              emt.INM = pcontrol.INM;
-      
-              // set max values for emt events time_A, time_B, time_S to the min values
-              emt.events.time_A.max = emt.events.time_A.min + 6;
-              emt.events.time_B.max = emt.events.time_B.min + 6;
-              emt.events.time_S.max = emt.events.time_S.min + 6;
-          }
-        }
-
-
-
     let inputs = {
-                  params: params, 
-                  init_params: (p) => {},
-                  init_display: (p, s) => {},
-                  update_fnc: 0,
-                  update_display: (s) => {},
-                  ui_fnc: 0,
-                  screen_size: {w: 1280.0, h: 512}
-                };
+      params: params,
+      init_display: init_display,
+      update_display: update_display,
+      screen_size: { w: 1280.0, h: 960 }
+    };
 
-    let sim_emt_p5 = new p5( p => sim_emt(p, inputs, $('sim_div')), 'sim_div');
-    // let pcontrol = sim_emt_p5.getControl();
-
-    // var p = sim_emt_p5.getParams();
-    // // modify parameters 
-    // //p.general.w_screen = 30.0;
-    // //p.general.h_screen = 20.0;
-
-    // p.general.p_div_out = 0.95;
-    // p.general.w_init = 10.0;
-    // p.general.h_init = 5.0;
-    // p.cell_prop.max_basal_junction_dist = 1.0;
-    // p.cell_prop.apical_junction_init = 1.5;
-
-    // // Rhard
-    // p.cell_types.control.R_hard = 0.4; 
-    // p.cell_types.emt.R_hard     = 0.4;
-
-    // // Rsoft 
-    // p.cell_types.control.R_soft = 1.2; 
-    // p.cell_types.emt.R_soft     = 1.2;
-
-    // // stiffness_apical_apical 
-    // p.cell_types.control.stiffness_apical_apical = 2.0; 
-    // p.cell_types.emt.stiffness_apical_apical     = 2.0;
-
-
-    // // stiffness_repulsion
-    // p.cell_types.control.stiffness_repulsion = 4.0; 
-    // p.cell_types.emt.stiffness_repulsion     = 4.0;
-
-    // // max cyto length = 3.7
-    // // apical healing = 1.0
-
-
+    let sim_emt_p5 = new p5(p => sim_emt(p, inputs, $('sim_div')), 'sim_div');
 
     // pcontrol.run = false;
     // pcontrol.INM = true;
     // pcontrol.A = 9;
     // pcontrol.B = 15;
     // pcontrol.S = 21;
-    // pcontrol.N = 19;
+    // pcontrol.N = 11;
 
-    // function controlFromHtml() {
-    //   pcontrol.hetero = $("hetero_input").checked;
+    function controlFromHtml() {
 
-    //   if (pcontrol.hetero) {
-    //     pcontrol.N = 11;
-    //     pcontrol.INM = parseFloat($("INM_input_hetero").value) / 2.0
-    //     pcontrol.run = parseFloat($("run_input_hetero").value) / 2.0
-    //   }
-    //   else {
-    //     pcontrol.N = parseInt($("N_input").value);
-    //     if (pcontrol.N == 2) {
-    //       pcontrol.N = 11;
-    //     }
+      const pg = params.general;
+      const emt = params.cell_types.emt;
 
-    //     pcontrol.INM = $("INM_input_homo").checked ? 1.0 : 0.0;
-    //     pcontrol.run = $("run_input_homo").checked ? 1.0 : 0.0;
+      let hetero = $("hetero_input").checked;
 
-    //     const emt_sc = $("EMT_scenario");
-    //     var emt_times = JSON.parse(emt_sc.options[emt_sc.selectedIndex].value);
-    //     // replace in emt_times -1 with Infinity
-    //     for (let i = 0; i < emt_times.length; i++) {
-    //       if (emt_times[i] == 0) {
-    //         emt_times[i] = Infinity;
-    //       }
-    //     }
+      if (hetero) {
+        pg.N_emt = 11;
+        pg.N_init = pg.N_emt + 35;
 
-    //     pcontrol.A = emt_times[0];
-    //     pcontrol.B = emt_times[1];
-    //     pcontrol.S = emt_times[2];
-    //     pcontrol.P = pcontrol.B;
-    //   }
+        emt.INM = parseFloat($("INM_input_hetero").value) / 2.0
+        emt.run = parseFloat($("run_input_hetero").value) / 2.0
+        emt.hetero = true;
+
+        emt.events.time_A = {min: 6, max: 24};
+        emt.events.time_B = {min: 6, max: 24};
+        emt.events.time_S = {min: 6, max: 24};
+        emt.events.time_P = {min: 6, max: 24};
+
+        // timings are always the same rage: 
+      }
+      else {
+        let N_cases = parseInt($("N_input").value);
+        if (N_cases == 0) {
+          pg.N_emt = 0;
+        } else if (N_cases == 1) {
+          pg.N_emt = 1;
+        } else {
+          pg.N_emt = 11;
+        }
+        pg.N_init = pg.N_emt + 35;
+
+        emt.INM = $("INM_input_homo").checked ? 1.0 : 0.0;
+        emt.run = $("run_input_homo").checked ? 1.0 : 0.0;
+
+        const emt_sc = $("EMT_scenario");
+        var emt_times = JSON.parse(emt_sc.options[emt_sc.selectedIndex].value);
+        // replace in emt_times = 0 with Infinity
+        for (let i = 0; i < emt_times.length; i++) {
+          if (emt_times[i] == 0) {
+            emt_times[i] = Infinity;
+          }
+        }
+
+        let A = emt_times[0];
+        let B = emt_times[1];
+        let S = emt_times[2];
+        let P = B;
+
+        emt.events.time_A = {min: A, max: A+0.05};
+        emt.events.time_B = {min: B, max: B+0.05};
+        emt.events.time_S = {min: S, max: S+0.05};
+        emt.events.time_B = {min: P, max: P+0.05};
+      }
+
+      sim_emt_p5.init();
+    }
+
+    controlFromHtml();
+
+    // when run_button is pressed, call sim_emt.init()
+    $("run_button").addEventListener("click", function () {
+      sim_emt_p5.init();
+    });
+
+    $("play_button").addEventListener("click", function () {
+      sim_emt_p5.pause();
+    });
 
 
-    //   sim_emt_p5.init();
-    // }
+    $("hetero_input")
+      .addEventListener("change", function () {
+        let hetero = this.checked;
+        if (hetero) {
+          $("N_hetero").style.display = "block";
+          $("N_homo").style.display = "none";
+          $("INM_hetero").style.display = "block";
+          $("INM_homo").style.display = "none";
+          $("run_hetero").style.display = "block";
+          $("run_homo").style.display = "none";
+          $("scenario_div_hetero").style.display = "block";
+          $("scenario_div_homo").style.display = "none";
 
-    // // when run_button is pressed, call sim_emt.init() 
-    // $("run_button").addEventListener("click", function () {
-    //   sim_emt_p5.init();
-    // });
+          //$("INM_input_hetero").value = ($("INM_input_homo").checked ? 1.0 : 0.0 )
+          //$("run_input_hetero").value = ($("run_input_homo").checked ? 1.0 : 0.0 )
+        }
+        else {
+          $("N_hetero").style.display = "none";
+          $("N_homo").style.display = "block";
+          $("INM_hetero").style.display = "none";
+          $("INM_homo").style.display = "block";
+          $("run_hetero").style.display = "none";
+          $("run_homo").style.display = "block";
+          $("scenario_div_hetero").style.display = "none";
+          $("scenario_div_homo").style.display = "block";
 
+          //$("INM_input_homo").checked = (parseFloat($("INM_input_hetero").value) < 0.5 ? false : true )
+          //$("run_input_homo").checked = (parseFloat($("run_input_hetero").value) < 0.5 ? false : true )
+        }
 
-    // $("play_button").addEventListener("click", function () {
-    //   sim_emt_p5.pause();
-    // });
+        controlFromHtml();
+      });
 
+    $("N_input")
+      .addEventListener("change", function () {
+        controlFromHtml();
+      });
 
-    // $("hetero_input")
-    //   .addEventListener("change", function () {
-    //     let hetero = this.checked;
-    //     if (hetero) {
-    //       $("N_hetero").style.display = "block";
-    //       $("N_homo").style.display = "none";
-    //       $("INM_hetero").style.display = "block";
-    //       $("INM_homo").style.display = "none";
-    //       $("run_hetero").style.display = "block";
-    //       $("run_homo").style.display = "none";
-    //       $("scenario_div_hetero").style.display = "block";
-    //       $("scenario_div_homo").style.display = "none";
+    $("INM_input_hetero")
+      .addEventListener("change", function () {
+        controlFromHtml();
+      });
 
-    //       //$("INM_input_hetero").value = ($("INM_input_homo").checked ? 1.0 : 0.0 )
-    //       //$("run_input_hetero").value = ($("run_input_homo").checked ? 1.0 : 0.0 )
-    //     }
-    //     else {
-    //       $("N_hetero").style.display = "none";
-    //       $("N_homo").style.display = "block";
-    //       $("INM_hetero").style.display = "none";
-    //       $("INM_homo").style.display = "block";
-    //       $("run_hetero").style.display = "none";
-    //       $("run_homo").style.display = "block";
-    //       $("scenario_div_hetero").style.display = "none";
-    //       $("scenario_div_homo").style.display = "block";
+    $("INM_input_homo")
+      .addEventListener("change", function () {
+        controlFromHtml();
+      });
 
-    //       //$("INM_input_homo").checked = (parseFloat($("INM_input_hetero").value) < 0.5 ? false : true )
-    //       //$("run_input_homo").checked = (parseFloat($("run_input_hetero").value) < 0.5 ? false : true )
-    //     }
+    $("run_input_hetero")
+      .addEventListener("change", function () {
+        controlFromHtml();
+      });
 
-    //     controlFromHtml();
-    //   });
+    $("run_input_homo")
+      .addEventListener("change", function () {
+        controlFromHtml();
+      });
 
-    // $("N_input")
-    //   .addEventListener("change", function () {
-    //     controlFromHtml();
-    //   });
-
-    // $("INM_input_hetero")
-    //   .addEventListener("change", function () {
-    //     controlFromHtml();
-    //   });
-
-    // $("INM_input_homo")
-    //   .addEventListener("change", function () {
-    //     controlFromHtml();
-    //   });
-
-    // $("run_input_hetero")
-    //   .addEventListener("change", function () {
-    //     controlFromHtml();
-    //   });
-
-    // $("run_input_homo")
-    //   .addEventListener("change", function () {
-    //     controlFromHtml();
-    //   });
-
-    // // load EMT scenario from html
-    // $("EMT_scenario").addEventListener("change", function () {
-    //   controlFromHtml();
-    // });
+    // load EMT scenario from html
+    $("EMT_scenario").addEventListener("change", function () {
+      controlFromHtml();
+    });
 
 
   </script>

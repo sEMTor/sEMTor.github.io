@@ -3,11 +3,14 @@ let sim_emt = function(p, inputs, sim_div) {
     const pv = p5.Vector;
 
     const aspect = inputs.screen_size.w / inputs.screen_size.h;
-    const sim_end = 24 * 2;
+    const params = inputs.params;
 
     // Units: space: 5e-6m | h
 
-    const params_def = inputs.params;
+    if( aspect != params.general.w_screen / params.general.h_screen ) {
+        console.log('Aspect ratio of the screen does not match the aspect ratio of the simulation');
+    }
+
     
     // state
     let s = {
@@ -18,7 +21,6 @@ let sim_emt = function(p, inputs, sim_div) {
     };
 
     p.getParams = function() { return params };
-    p.getControl = function() { return pcontrol };
     p.getState = function() { return s };
 
 
@@ -162,8 +164,6 @@ let sim_emt = function(p, inputs, sim_div) {
         s.ap_links.length = 0;
         s.ba_links.length = 0;
 
-        inputs.init_params(params);
-
         const N =  params.general.N_init;
         const i_emt = p.round( (N - params.general.N_emt) / 2 );
         const j_emt = i_emt + params.general.N_emt;
@@ -199,7 +199,6 @@ let sim_emt = function(p, inputs, sim_div) {
         s.t = 0.0;
 
         inputs.init_display(s);
-
     }
 
 
@@ -405,6 +404,16 @@ let sim_emt = function(p, inputs, sim_div) {
                 } 
                 else {
                     ci.eta_B = p.exp(-dt * ci.type.k_cytos ) * (ci.eta_B - basal_drl) + basal_drl;
+                }
+            }
+
+            if( !ci.is_running || ci.has_B ){
+                const m_cl = ci.type.max_cytoskeleton_length;
+                const too_long = ci.eta_A + ci.eta_B - m_cl
+
+                if( too_long > 1 ){
+                    ci.eta_A = ci.eta_A * m_cl / (ci.eta_A + ci.eta_B);
+                    ci.eta_B = ci.eta_B * m_cl / (ci.eta_A + ci.eta_B);
                 }
             }
         }
@@ -621,7 +630,7 @@ let sim_emt = function(p, inputs, sim_div) {
         p.background(255,255,255);
         
         // simulate 
-        if( s.t < sim_end ){   
+        if( s.t < pg.t_end ){   
             timeStep();
             reset_time = 0.0;
         }
@@ -703,7 +712,7 @@ let sim_emt = function(p, inputs, sim_div) {
         mouse = p.createVector(p.mouseX / sX - tX, p.mouseY / sY - tY);
         const pg = params.general;
 
-        if( s.t > sim_end ) {
+        if( s.t > pg.t_end ) {
             init();
             return;
         }

@@ -43,7 +43,6 @@ let sim_emt = function(p, inputs, sim_div) {
 
             this.eta_A = h/2;
             this.eta_B = h/2;
-            this.eta_aa = params.cell_prop.apical_junction_init;
             this.has_A = true;
             this.has_B = true;
 
@@ -196,7 +195,7 @@ let sim_emt = function(p, inputs, sim_div) {
         }
 
         for( let i = 0; i < s.cells.length - 1; ++i ) {
-            s.ap_links[i] = {l: i, r: i+1, rl: 0.3};
+            s.ap_links[i] = {l: i, r: i+1, rl: params.cell_prop.apical_junction_init};
             s.ba_links[i] = {l: i, r: i+1};
         }
 
@@ -430,7 +429,7 @@ let sim_emt = function(p, inputs, sim_div) {
             const cj = s.cells[ s.ap_links[e].r ];
 
             const k_avg = 0.5*ci.type.k_apical_junction + 0.5*cj.type.k_apical_junction;
-            s.ap_links[e].rl *= p.exp(-dt * k_avg);
+            s.ap_links[e].rl = s.ap_links[e].rl * p.exp(-dt * k_avg);
         }
 
         dt = pg.dt / pg.n_substeps;
@@ -510,7 +509,6 @@ let sim_emt = function(p, inputs, sim_div) {
                 
                 if( d > 1e-6 ) {
                     aiaj.mult( 0.25*0.5*(ci.stiffness_apical_apical+cj.stiffness_apical_apical) );
-
                     aiaj.mult( (d - s.ap_links[e].rl)/(d) )
                     ci.fA.sub( aiaj );
                     cj.fA.add( aiaj );

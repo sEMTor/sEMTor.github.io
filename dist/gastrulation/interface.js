@@ -176,6 +176,16 @@ function controlFromHtml() {
   ps.stiffness_nuclei_basal = ps_contract_value[1];
   ps.stiffness_apical_apical = ps_contract_value[2];
 
+
+  $("epi_aa").innerHTML = epi.stiffness_apical_apical;
+  $("epi_aN").innerHTML = epi.stiffness_nuclei_apical;
+  $("epi_bN").innerHTML = epi.stiffness_nuclei_basal;
+
+  $("ps_aa").innerHTML = ps.stiffness_apical_apical;
+  $("ps_aN").innerHTML = ps.stiffness_nuclei_apical;
+  $("ps_bN").innerHTML = ps.stiffness_nuclei_basal;
+
+
   sim_emt_p5.init();
 }
 
@@ -203,3 +213,14 @@ $("epi_ct_api").addEventListener("click", controlFromHtml);
 $("ps_ct_api").addEventListener("click", controlFromHtml);
 $("epi_ct_ctrl").addEventListener("click", controlFromHtml);
 $("ps_ct_ctrl").addEventListener("click", controlFromHtml);
+
+$("reset").addEventListener("click", function () {
+  $("ps_attached").checked = false;
+  $("ps_cc_duration").checked = false;
+  $("epi_cc_duration").checked = true;
+  $("ps_div_duration").checked = true;
+  $("epi_div_duration").checked = true;
+  $("epi_ct_ctrl").checked = true;
+  $("ps_ct_ctrl").checked = true;
+  controlFromHtml();
+});

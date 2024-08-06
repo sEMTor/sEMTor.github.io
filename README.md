@@ -14,6 +14,8 @@ See the companion articles:
 The primary simulation is implemented in the file
 [page/js/simulation.js](https://github.com/sEMTor/sEMTor.github.io/blob/main/page/js/simulation.js).
 
+See also [sEMTor.jl](https://github.com/SteffenPL/sEMTor.jl) for the Julia implementation, which can be executed for free in this [Code Ocean Capsule](https://codeocean.com/capsule/7746744/tree). 
+
 ## Local deployment
 
 To make changes to the simulation, install [Node.js](https://github.com/nvm-sh/nvm) and run the command

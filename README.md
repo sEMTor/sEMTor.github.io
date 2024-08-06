@@ -4,9 +4,9 @@ sEMTor is an online simulation for epithelial-mesenchymal transitions (EMT): [sE
 
 See the companion articles:
 
-- **S. Plunder, C. Danesin, B. Glise, M. A. Ferreira, S. Merino-Aceituno, E. Theveneau**, _Modelling variability and heterogeneity of EMT scenarios highlights nuclear positioning and protrusions as main drivers of extrusion._ **(2023)** [bioRxiv](https://www.biorxiv.org/content/10.1101/2023.11.17.567510v1){target="_blank"}.
+- **S. Plunder, C. Danesin, B. Glise, M. A. Ferreira, S. Merino-Aceituno, E. Theveneau**, _Modelling variability and heterogeneity of EMT scenarios highlights nuclear positioning and protrusions as main drivers of extrusion._ **(2023)** [bioRxiv](https://www.biorxiv.org/content/10.1101/2023.11.17.567510v1).
 
-- **E. Despin-Guitard, V. Rosa, S. Plunder, N. Mathiah, M. Shahbazi, E. Theveneau, K. Van Shoor, E. Nehme, S. Merino-Aceituno, J. Egea, I. Migeotte** _Occurrence of non-apical mitoses at the primitive streak, induced by relaxation of actomyosin and acceleration of the cell cycle, contributes to cell delamination during mouse gastrulation._ **(2024)** [bioRxiv](https://www.biorxiv.org/content/10.1101/2024.01.24.577096v1){target="_blank"}.
+- **E. Despin-Guitard, V. Rosa, S. Plunder, N. Mathiah, M. Shahbazi, E. Theveneau, K. Van Shoor, E. Nehme, S. Merino-Aceituno, J. Egea, I. Migeotte** _Occurrence of non-apical mitoses at the primitive streak, induced by relaxation of actomyosin and acceleration of the cell cycle, contributes to cell delamination during mouse gastrulation._ **(2024)** [bioRxiv](https://www.biorxiv.org/content/10.1101/2024.01.24.577096v1).
 
 
 ## Source code
